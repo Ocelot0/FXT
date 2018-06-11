@@ -46,15 +46,18 @@ const FVector2D Icon16x16(16.0f, 16.0f);
 const FVector2D Icon20x20(20.0f, 20.0f);
 const FVector2D Icon24x24(24.0f, 24.0f);
 const FVector2D Icon40x40(40.0f, 40.0f);
+const FVector2D Icon64x64(64.0f, 64.0f);
 
 TSharedRef< FSlateStyleSet > FFXTStyle::Create()
 {
 	TSharedRef< FSlateStyleSet > Style = MakeShareable(new FSlateStyleSet("FXTStyle"));
 	Style->SetContentRoot(IPluginManager::Get().FindPlugin("FXT")->GetBaseDir() / TEXT("Resources"));
 
+	Style->Set("FXT.Icon64", new IMAGE_BRUSH(TEXT("FXT_Main_64"), Icon64x64));
 	Style->Set("FXT.OpenPluginWindow", new IMAGE_BRUSH(TEXT("FXT_Main_40"), Icon40x40));
 	Style->Set("FXT.Icon24", new IMAGE_BRUSH(TEXT("FXT_Main_24"), Icon24x24));
 	Style->Set("FXT.Icon16", new IMAGE_BRUSH(TEXT("FXT_Main_16"), Icon16x16));
+	
 
 	//*Text Block Style (TBStyle)
 	const FTextBlockStyle FooterText = FTextBlockStyle()

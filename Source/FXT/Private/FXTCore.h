@@ -17,6 +17,7 @@
 #include "EditorStyleSet.h"			//provide FEditorStyle
 #include "EditorFontGlyphs.h"		//provide icons as FText
 #include "EditorViewportClient.h"
+#include "Dialogs.h"
 
 //Engine Slate Widgets
 #include "SBox.h"		//SlateWidget : Box
@@ -38,6 +39,7 @@
 #include "SFXTMain.h"
 #include "SFXTMainToolbar.h"
 #include "SFXTParent.h"
+#include "SFXTInfo.h"
 
 //FXT Class
 #include "FXTParent.h"
@@ -62,21 +64,24 @@
 #define BTN_EDITCHILD_TOOLTIP "Edit child list"
 #define BTN_RESETCHILDLIST_TOOLTIP "Remove all child from list"
 #define BTN_REMOVECHILD_TOOLTIP "Remove from list"
+#define BTN_CREATEPARENT_WIKIPAGE "Wiki page"
 
 //*FXT Versions
 #define FXT_MAJOR_VERSION 1
 #define FXT_MINOR_VERSION 1
-#define FXT_PATCH_VERSION 0
+#define FXT_PATCH_VERSION 1
 #define FXT_DESCRIPTION_VERSION TEXT("Dev")
 
 //*Tool Name
 #define FXT_TOOLNAME_PARENT "Parent Tool"
+#define FXT_TOOLNAME_INFO "Information"
 
 UENUM()
 enum class EFXTToolType
 {
 	EDefault,
-	EParent
+	EParent,
+	EInfo
 };
 
 //*Static Functions
@@ -140,6 +145,39 @@ struct FFXTCore
 
 	//*Data Util
 	static int32 CompareNumeric(const FString& A, const FString& B);
+};
+
+//*License
+struct FLicense
+{
+	static bool GetLicense(TArray<FString>& outLisence) {
+		if (outLisence.Num() > 0) return false;
+
+		outLisence.Add("MIT License");
+		outLisence.Add("");
+		outLisence.Add("Copyright (c) 2018 LeeGilSu");
+		outLisence.Add("");
+		outLisence.Add("Permission is hereby granted, free of charge, to any person obtaining a copy");
+		outLisence.Add("of this software and associated documentation files (the ''Software''), to deal");
+		outLisence.Add("in the Software without restriction, including without limitation the rights");
+		outLisence.Add("to use, copy, modify, merge, publish, distribute, sublicense, and/or sell");
+		outLisence.Add("copies of the Software, and to permit persons to whom the Software is");
+		outLisence.Add("furnished to do so, subject to the following conditions:");
+		outLisence.Add("");
+		outLisence.Add("The above copyright notice and this permission notice shall be included in all");
+		outLisence.Add("copies or substantial portions of the Software.");
+		outLisence.Add("");
+		outLisence.Add("THE SOFTWARE IS PROVIDED ''AS IS'', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR");
+		outLisence.Add("IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,");
+		outLisence.Add("FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE");
+		outLisence.Add("AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER");
+		outLisence.Add("LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,");
+		outLisence.Add("OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE");
+		outLisence.Add("SOFTWARE.");
+		outLisence.Add("");
+
+		return true;
+	}
 };
 
 //*Typedefs

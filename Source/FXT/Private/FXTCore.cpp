@@ -21,7 +21,7 @@ FString FFXTCore::GetVersionString(bool bEngineVersion)
 			+ FString::FromInt(BUILT_FROM_CHANGELIST);
 	}
 
-	return FString(FULLNAME)
+	return FString(SHORTNAME) + FString(TEXT("(")) + FString(FULLNAME) + FString(TEXT(") "))
 		+ FString::FromInt(FXT_MAJOR_VERSION) + FString(TEXT("."))
 		+ FString::FromInt(FXT_MINOR_VERSION) + FString(TEXT("."))
 		+ FString::FromInt(FXT_PATCH_VERSION) + FString(TEXT("_"))

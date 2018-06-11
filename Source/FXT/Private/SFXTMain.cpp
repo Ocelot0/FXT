@@ -20,26 +20,20 @@ void SFXTMain::Construct(const FArguments& InArgs)
 			SNew(SBorder).BorderImage(FEditorStyle::GetBrush("ToolPanel.DarkGroupBorder"))[
 				SNew(SBox)[
 					SNew(SVerticalBox)
-						//*MenuToolbar
+					//*MenuToolbar
 					+ SVerticalBox::Slot().AutoHeight().VAlign(VAlign_Top)[
 						SNew(SFXTMainToolbar, SharedThis(this))
 					]//-SVerticalBox::Slot()
-						//*ParentTool
+					//*ParentTool
 					+ SVerticalBox::Slot().VAlign(VAlign_Fill)[
 						SNew(SFXTParent).Visibility(Vis_byToolType(EFXTToolType::EParent))
 					]//-SVerticalBox::Slot()
+					 //*ParentTool
+					+ SVerticalBox::Slot().VAlign(VAlign_Fill)[
+						SNew(SFXTInfo).Visibility(Vis_byToolType(EFXTToolType::EInfo))
+					]//-SVerticalBox::Slot()
 				]//-SBox
 			]//-SBorder
-		]//-SVerticalBox::Slot()
-		//*Footer
-		+ SVerticalBox::Slot().VAlign(VAlign_Bottom).HAlign(HAlign_Right).AutoHeight().Padding(0.f, 4.f, 0.f, 0.f)[
-			SNew(SVerticalBox)
-				+ SVerticalBox::Slot().HAlign(HAlign_Right)[
-					SNew(STextBlock).Text(FXTC::GetFullVersionText()).TextStyle(FXTStyle::GetTBStyle("FooterText"))
-				]
-				+ SVerticalBox::Slot().HAlign(HAlign_Right)[
-					SNew(STextBlock).Text(FXTC::GetCopyrightText()).TextStyle(FXTStyle::GetTBStyle("FooterText"))
-				]
 		]//-SVerticalBox::Slot()
 	];//-ChildSlot()
 	

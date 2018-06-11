@@ -34,20 +34,50 @@ void SFXTMainToolbar::Construct(const FArguments& InArgs, const TSharedRef<SFXTM
 					.Text(FText::FromString(FXT_TOOLNAME_PARENT))
 					.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
 					.TextStyle(FXTStyle::GetTBStyle("ButtonText.Dark"))
-					.InitialColor(Clr_ParentBTN_Attr)
+					.InitialColor(Clr_byToolType(EFXTToolType::EParent))
+				]//-SHorizontalBox::Slot()
+				//*Info Button
+				+ SHorizontalBox::Slot().AutoWidth()[
+					SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_Info)
+						.Text(FText::FromString(FXT_TOOLNAME_INFO))
+						.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+						.TextStyle(FXTStyle::GetTBStyle("ButtonText.Dark"))
+						.InitialColor(Clr_byToolType(EFXTToolType::EInfo))
 				]//-SHorizontalBox::Slot()
 			]//-SVerticalBox::Slot()
 		]//-SBorder
 	];
 	
 }
+TAttribute<FSlateColor> SFXTMainToolbar::Clr_byToolType(EFXTToolType CompareType)
+{
+	auto Vis_IsCurrentTool_Lam = [this, CompareType] {
+		if (OwnerPtr.IsValid()) {
+			return OwnerPtr.Pin()->GetCurrentTool() == CompareType ? FXTStyle::Clr_Toggle() : FXTStyle::Clr_Default();
+		}
+		return FXTStyle::Clr_Hidden();
+	};
+
+	return TAttribute<FSlateColor>::Create(
+		TAttribute<FSlateColor>::FGetter::CreateLambda(Vis_IsCurrentTool_Lam));
+}
+
 FReply SFXTMainToolbar::BTN_Parent()
 {
 	const TSharedPtr<SFXTMain> OwnerWidget = OwnerPtr.Pin();
 
 	if (OwnerWidget.IsValid()) {
 		OwnerWidget->SetCurrentTool(EFXTToolType::EParent);
-		//UE_LOG(LogTemp, Warning, TEXT("%s"), *OwnerWidget->DebugStr);
+	}
+
+	return FReply::Handled();
+}
+FReply SFXTMainToolbar::BTN_Info()
+{
+	const TSharedPtr<SFXTMain> OwnerWidget = OwnerPtr.Pin();
+
+	if (OwnerWidget.IsValid()) {
+		OwnerWidget->SetCurrentTool(EFXTToolType::EInfo);
 	}
 
 	return FReply::Handled();

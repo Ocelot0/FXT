@@ -22,7 +22,13 @@ public:
 
 
 public:
+	//*Button Color Attr
+	TAttribute<FSlateColor> Clr_byToolType(EFXTToolType CompareType);
+
 	//*Parenting Tool
 	FReply BTN_Parent();
+
+	//*INFO
+	FReply BTN_Info();
 
 };
