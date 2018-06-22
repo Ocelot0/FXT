@@ -56,6 +56,14 @@ public:
 	UFUNCTION()
 		void GetChildList(TArray<AActor*>& outchildlist) { outchildlist = ChildList; }
 
+	
+	UFUNCTION()
+		//@ ClassFName : without class prefix ex)ACharacter > Character
+		bool GetActorsFromChildListByClassFName(TArray<AActor*>& outResult, FName ClassFName = FName(TEXT("Actor")));
+
+	template< class T >
+	bool GetActorsFromChildList(TArray<T*>& outResult);
+
 	UFUNCTION()
 		int32 GetNumOfChilds() { return ChildList.Num(); }
 

@@ -19,8 +19,8 @@ void EmptyLinkFunctionForGeneratedCodeFXT_init() {}
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/FXT",
 				PKG_CompiledIn | 0x00000040,
-				0xFC4075E1,
-				0xEE72E3B4,
+				0xD148337F,
+				0x94D56191,
 				nullptr, 0,
 				METADATA_PARAMS(nullptr, 0)
 			};

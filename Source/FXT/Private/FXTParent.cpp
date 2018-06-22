@@ -81,6 +81,33 @@ UTexture2D * AFXTParent::LoadTexture2DFromFile(const FString & FullFilePath)
 	return nullptr;
 }
 
+bool AFXTParent::GetActorsFromChildListByClassFName(TArray<AActor*>& outResult, FName ClassFName)
+{
+	for (AActor* i : ChildList) {
+		if (i->GetClass()->GetFName() == ClassFName) {
+			outResult.Add(i);
+		}
+	}
+
+	return outResult.Num() > 0 ? true : false;
+}
+
+template< class T >
+bool AFXTParent::GetActorsFromChildList(TArray<T*>& outResult)
+{
+	for (AActor* i : ChildList) {
+
+		T* t = Cast<T>(i);
+		if (t) {
+			outResult.Add(t);
+		}
+
+	}
+
+	return outResult.Num() > 0 ? true : false;
+}
+
+
 void AFXTParent::UpdateEditorBillboard()
 {
 	FString TargetImageName = TEXT("FXT_Main_128.png");
@@ -173,10 +200,69 @@ void AFXTParent::AddChildFromSelectedActors()
 		FXTC::Itr<AFXTParent>(Parents);
 
 		//Iterate Selection
+		TArray<AActor*> currentselectedactors;
 		for (FSelectionIterator i(*SelectedActors); i; ++i) {
 			//Cast to AActor
 			AActor* A = CastChecked<AActor>(*i);
 			if (FXTC::chkA(A) && A != this) {
+				currentselectedactors.Add(A);
+			}
+		}
+
+		//check mobility is static
+		TArray<UStaticMeshComponent*> SMCs;
+		for (int32 i = 0; i < currentselectedactors.Num(); i++) {
+			//Get All Components of actor
+			TArray<UActorComponent*> StaticMeshComps = currentselectedactors[i]->GetComponentsByClass(UStaticMeshComponent::StaticClass());
+
+			//foreach component
+			for (UActorComponent* j : StaticMeshComps) {
+				UStaticMeshComponent* SMC = Cast<UStaticMeshComponent>(j);
+				if (SMC && SMC->Mobility == EComponentMobility::Static) {
+					//found static staticmesh
+					SMCs.Add(SMC);
+				}
+			}
+		}
+
+		//about static static mesh
+		if (SMCs.Num() > 0) {
+			//* Warning Message popup
+			FText Message = FXTC::T(
+				"Found Static mobility in [" + FString::FromInt(SMCs.Num()) +"] static meshes."
+				+ "\nHow to proceed? \n\n"
+				+ "Cancel : Abort \n"
+				+ "Retry : Try set to Movable \n"
+				+ "Continue : Continue without Static (Won't be added to list)"
+				);
+			FText Title = FXTC::T("Confirm");
+
+			EAppReturnType::Type Dialogresult = FMessageDialog::Open(EAppMsgType::CancelRetryContinue, Message, &Title);
+
+			//*Destroy parent and all childs
+			if (Dialogresult == EAppReturnType::Cancel)
+			{
+				return;
+			}
+
+			if (Dialogresult == EAppReturnType::Retry)
+			{
+				for (UStaticMeshComponent* i : SMCs) {
+					i->SetMobility(EComponentMobility::Movable);
+				}
+			}
+
+			if (Dialogresult == EAppReturnType::Continue)
+			{
+				for (UStaticMeshComponent* i : SMCs) {
+					currentselectedactors.Remove(i->GetOwner());
+				}
+			}
+		}
+
+		//add to list
+		if (currentselectedactors.Num() > 0) {
+			for (AActor* A : currentselectedactors) {
 
 				//Remove from another parents
 				for (AFXTParent* itr : Parents) {

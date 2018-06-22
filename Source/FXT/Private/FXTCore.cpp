@@ -11,6 +11,12 @@ FText FFXTCore::T(FString Str, FString Key)
 	return FText::ChangeKey("FXT", Key, FText::FromString(Str));
 }
 
+FText FFXTCore::T_FName(FName Name, FString Key)
+{
+	if (Key == "NULL") return FText::FromName(Name);
+	return FText::ChangeKey("FXT", Key, FText::FromName(Name));
+}
+
 FString FFXTCore::GetVersionString(bool bEngineVersion)
 {
 	if (bEngineVersion)
@@ -21,11 +27,12 @@ FString FFXTCore::GetVersionString(bool bEngineVersion)
 			+ FString::FromInt(BUILT_FROM_CHANGELIST);
 	}
 
-	return FString(SHORTNAME) + FString(TEXT("(")) + FString(FULLNAME) + FString(TEXT(") "))
-		+ FString::FromInt(FXT_MAJOR_VERSION) + FString(TEXT("."))
-		+ FString::FromInt(FXT_MINOR_VERSION) + FString(TEXT("."))
-		+ FString::FromInt(FXT_PATCH_VERSION) + FString(TEXT("_"))
-		+ FString(FXT_DESCRIPTION_VERSION);
+	FPluginDescriptor P = IPluginManager::Get().FindPlugin("FXT")->GetDescriptor();
+	
+	FString BetaVersionText = P.bIsBetaVersion ? "Beta" : "";
+	return P.FriendlyName + " "
+		+ P.VersionName
+		+ "(" + BetaVersionText + ")";
 }
 
 FText FFXTCore::GetFullVersionText()
@@ -33,7 +40,7 @@ FText FFXTCore::GetFullVersionText()
 	return FText::ChangeKey("FXT", "VersionText",
 		FText::FromString(
 			GetVersionString(false) +
-			FString(TEXT("(compatible with UE")) +
+			FString(TEXT(" (compatible with UE")) +
 			GetVersionString() +
 			FString(TEXT(")")))
 	);

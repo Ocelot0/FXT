@@ -39,7 +39,7 @@ void SFXTButton::Construct(const FArguments& InArgs)
 
 	ChildSlot
 	[
-		SNew(SButton).ButtonStyle(InArgs._ButtonStyle).OnClicked(InArgs._OnClicked)
+		SNew(SButton).ButtonStyle(InArgs._ButtonStyle).OnClicked(InArgs._OnClicked).ContentPadding(0.f)
 		[
 			SNew(SHorizontalBox)
 			//image

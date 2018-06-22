@@ -18,6 +18,8 @@
 #include "EditorFontGlyphs.h"		//provide icons as FText
 #include "EditorViewportClient.h"
 #include "Dialogs.h"
+#include "AssetEditorManager.h"
+#include "Runtime/LevelSequence/Public/LevelSequenceActor.h"
 
 //Engine Slate Widgets
 #include "SBox.h"		//SlateWidget : Box
@@ -29,6 +31,8 @@
 #include "SComboBox.h"	//SlateWidget : ComboBox
 #include "STextComboBox.h"	//SlateWidget : TextComboBox
 #include "SSeparator.h"
+#include "SCheckBox.h"
+#include "SSpinBox.h"
 
 //Style set
 #include "FXTStyle.h"
@@ -40,6 +44,7 @@
 #include "SFXTMainToolbar.h"
 #include "SFXTParent.h"
 #include "SFXTInfo.h"
+#include "SRowComboButton.h"
 
 //FXT Class
 #include "FXTParent.h"
@@ -58,19 +63,23 @@
 #define TOOLBAREXTENTIONHOOK "Compile"
 
 //Button tooltips
-#define BTN_CREATEPARENT_TOOLTIP "Create New Parent"
+#define BTN_CREATEPARENT_TOOLTIP "Create a new Pineapple\nAt view loaction"
 #define BTN_HIDDENTOGGLE_TOOLTIP "Hide child actors"
 #define BTN_ADDCHILDFROMSELECTED_TOOLTIP "Add childs from selected"
+#define BTN_DESTROYPARENT_TOOLTIP "Destroy"
 #define BTN_EDITCHILD_TOOLTIP "Edit child list"
 #define BTN_RESETCHILDLIST_TOOLTIP "Remove all child from list"
 #define BTN_REMOVECHILD_TOOLTIP "Remove from list"
+#define BTN_GOTOCHILD_TOOLTIP "Goto"
+#define BTN_GOTOPARENT_TOOLTIP "Goto"
+#define BTN_GOTOSEQ_TOOLTIP "Goto sequencer"
 #define BTN_CREATEPARENT_WIKIPAGE "Wiki page"
 
-//*FXT Versions
-#define FXT_MAJOR_VERSION 1
-#define FXT_MINOR_VERSION 1
-#define FXT_PATCH_VERSION 1
-#define FXT_DESCRIPTION_VERSION TEXT("Dev")
+//tooltips
+#define TB_NEWPARENTNAME_TOOLTIP "This will be used as the name of the new parent"
+#define SB_NEWPARENTVIEWOFFSET_TOOLTIP " Offset \n New parent location = View + ViewDirection * Offset"
+#define CB_GOTOSEQOPENSEQ_TOOLTIP " Goto Sequencer \n Open Sequencer Editor?"
+#define CB_GOTOSEQFOCUS_TOOLTIP "Goto Sequencer \n Move camera to target?"
 
 //*Tool Name
 #define FXT_TOOLNAME_PARENT "Parent Tool"
@@ -93,6 +102,7 @@ struct FFXTCore
 
 	//FText from string
 	static FText T(FString Str, FString Key = "NULL");
+	static FText T_FName(FName Name, FString Key = "NULL");
 
 	//Get Version
 	static FString GetVersionString(bool bEngineVersion = true);

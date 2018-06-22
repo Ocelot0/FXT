@@ -25,6 +25,9 @@ public:
 	//*Button Color Attr
 	TAttribute<FSlateColor> Clr_byToolType(EFXTToolType CompareType);
 
+	//*Button Border Attr
+	TAttribute<const FSlateBrush*> Border_byToolType(EFXTToolType CompareType);
+
 	//*Parenting Tool
 	FReply BTN_Parent();
 

@@ -18,9 +18,10 @@ void EmptyLinkFunctionForGeneratedCodeFXTParent() {}
 	ENGINE_API UClass* Z_Construct_UClass_AActor();
 	UPackage* Z_Construct_UPackage__Script_FXT();
 	FXT_API UFunction* Z_Construct_UFunction_AFXTParent_AddChildFromSelectedActors();
+	FXT_API UFunction* Z_Construct_UFunction_AFXTParent_GetActorsFromChildListByClassFName();
+	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 	FXT_API UFunction* Z_Construct_UFunction_AFXTParent_GetChildHidden();
 	FXT_API UFunction* Z_Construct_UFunction_AFXTParent_GetChildList();
-	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 	FXT_API UFunction* Z_Construct_UFunction_AFXTParent_GetNumOfChilds();
 	FXT_API UFunction* Z_Construct_UFunction_AFXTParent_RefreshChildList();
 	FXT_API UFunction* Z_Construct_UFunction_AFXTParent_RemoveChildByLabel();
@@ -34,6 +35,7 @@ void EmptyLinkFunctionForGeneratedCodeFXTParent() {}
 		UClass* Class = AFXTParent::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
 			{ "AddChildFromSelectedActors", &AFXTParent::execAddChildFromSelectedActors },
+			{ "GetActorsFromChildListByClassFName", &AFXTParent::execGetActorsFromChildListByClassFName },
 			{ "GetChildHidden", &AFXTParent::execGetChildHidden },
 			{ "GetChildList", &AFXTParent::execGetChildList },
 			{ "GetNumOfChilds", &AFXTParent::execGetNumOfChilds },
@@ -55,6 +57,39 @@ void EmptyLinkFunctionForGeneratedCodeFXTParent() {}
 			};
 #endif
 			static const UE4CodeGen_Private::FFunctionParams FuncParams = { (UObject*(*)())Z_Construct_UClass_AFXTParent, "AddChildFromSelectedActors", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Function_MetaDataParams, ARRAY_COUNT(Function_MetaDataParams)) };
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, FuncParams);
+		}
+		return ReturnFunction;
+	}
+	UFunction* Z_Construct_UFunction_AFXTParent_GetActorsFromChildListByClassFName()
+	{
+		struct FXTParent_eventGetActorsFromChildListByClassFName_Parms
+		{
+			TArray<AActor*> outResult;
+			FName ClassFName;
+			bool ReturnValue;
+		};
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			auto NewProp_ReturnValue_SetBit = [](void* Obj){ ((FXTParent_eventGetActorsFromChildListByClassFName_Parms*)Obj)->ReturnValue = 1; };
+			static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Bool, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000580, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(FXTParent_eventGetActorsFromChildListByClassFName_Parms), &UE4CodeGen_Private::TBoolSetBitWrapper<decltype(NewProp_ReturnValue_SetBit)>::SetBit, METADATA_PARAMS(nullptr, 0) };
+			static const UE4CodeGen_Private::FNamePropertyParams NewProp_ClassFName = { UE4CodeGen_Private::EPropertyClass::Name, "ClassFName", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000080, 1, nullptr, STRUCT_OFFSET(FXTParent_eventGetActorsFromChildListByClassFName_Parms, ClassFName), METADATA_PARAMS(nullptr, 0) };
+			static const UE4CodeGen_Private::FArrayPropertyParams NewProp_outResult = { UE4CodeGen_Private::EPropertyClass::Array, "outResult", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000180, 1, nullptr, STRUCT_OFFSET(FXTParent_eventGetActorsFromChildListByClassFName_Parms, outResult), METADATA_PARAMS(nullptr, 0) };
+			static const UE4CodeGen_Private::FObjectPropertyParams NewProp_outResult_Inner = { UE4CodeGen_Private::EPropertyClass::Object, "outResult", RF_Public|RF_Transient|RF_MarkAsNative, 0x0000000000000000, 1, nullptr, 0, Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+			static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[] = {
+				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_ReturnValue,
+				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_ClassFName,
+				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_outResult,
+				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_outResult_Inner,
+			};
+#if WITH_METADATA
+			static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+				{ "ModuleRelativePath", "Public/FXTParent.h" },
+				{ "ToolTip", "@ ClassFName : without class prefix ex)ACharacter > Character" },
+			};
+#endif
+			static const UE4CodeGen_Private::FFunctionParams FuncParams = { (UObject*(*)())Z_Construct_UClass_AFXTParent, "GetActorsFromChildListByClassFName", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00420401, sizeof(FXTParent_eventGetActorsFromChildListByClassFName_Parms), PropPointers, ARRAY_COUNT(PropPointers), 0, 0, METADATA_PARAMS(Function_MetaDataParams, ARRAY_COUNT(Function_MetaDataParams)) };
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, FuncParams);
 		}
 		return ReturnFunction;
@@ -224,6 +259,7 @@ void EmptyLinkFunctionForGeneratedCodeFXTParent() {}
 			};
 			static const FClassFunctionLinkInfo FuncInfo[] = {
 				{ &Z_Construct_UFunction_AFXTParent_AddChildFromSelectedActors, "AddChildFromSelectedActors" }, // 1487904293
+				{ &Z_Construct_UFunction_AFXTParent_GetActorsFromChildListByClassFName, "GetActorsFromChildListByClassFName" }, // 2136672514
 				{ &Z_Construct_UFunction_AFXTParent_GetChildHidden, "GetChildHidden" }, // 1672320201
 				{ &Z_Construct_UFunction_AFXTParent_GetChildList, "GetChildList" }, // 2844894768
 				{ &Z_Construct_UFunction_AFXTParent_GetNumOfChilds, "GetNumOfChilds" }, // 1674721755
@@ -295,7 +331,7 @@ void EmptyLinkFunctionForGeneratedCodeFXTParent() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AFXTParent, 2451219188);
+	IMPLEMENT_CLASS(AFXTParent, 44049724);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AFXTParent(Z_Construct_UClass_AFXTParent, &AFXTParent::StaticClass, TEXT("/Script/FXT"), TEXT("AFXTParent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AFXTParent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

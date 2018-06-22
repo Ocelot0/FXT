@@ -22,27 +22,31 @@ void SFXTMainToolbar::Construct(const FArguments& InArgs, const TSharedRef<SFXTM
 	auto Clr_ParentBTN_Attr = TAttribute<FSlateColor>::Create(
 		TAttribute<FSlateColor>::FGetter::CreateLambda(Clr_ParentBTN_Lam));
 
-	ChildSlot.Padding(4.f)
+	ChildSlot
 	[
-		SNew(SBorder).BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder")).Padding(4.f)[
+		SNew(SBorder).BorderImage(FEditorStyle::GetBrush("ToolPanel.DarkGroupBorder")).Padding(0.f)[
 			SNew(SVerticalBox)
 			+ SVerticalBox::Slot().AutoHeight()[
 				SNew(SHorizontalBox)
 				//*Parent Tool Button
 				+ SHorizontalBox::Slot().AutoWidth()[			
-					SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_Parent)
-					.Text(FText::FromString(FXT_TOOLNAME_PARENT))
-					.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
-					.TextStyle(FXTStyle::GetTBStyle("ButtonText.Dark"))
-					.InitialColor(Clr_byToolType(EFXTToolType::EParent))
+					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EParent)).Padding(0.f)[
+						SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_Parent)
+							.bUseImage(true)
+							.Image(FXTStyle::Get().GetBrush("EditorIcon.SceneOutliner"))
+							.ToolTipText(FText::FromString(FXT_TOOLNAME_PARENT))
+							.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+					]//-SBorder
 				]//-SHorizontalBox::Slot()
 				//*Info Button
 				+ SHorizontalBox::Slot().AutoWidth()[
-					SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_Info)
-						.Text(FText::FromString(FXT_TOOLNAME_INFO))
-						.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
-						.TextStyle(FXTStyle::GetTBStyle("ButtonText.Dark"))
-						.InitialColor(Clr_byToolType(EFXTToolType::EInfo))
+					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EInfo)).Padding(0.f)[
+						SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_Info)
+							.bUseImage(true)
+							.Image(FXTStyle::Get().GetBrush("EditorIcon.Detail"))
+							.ToolTipText(FText::FromString(FXT_TOOLNAME_INFO))
+							.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+					]//-SBorder
 				]//-SHorizontalBox::Slot()
 			]//-SVerticalBox::Slot()
 		]//-SBorder
@@ -60,6 +64,20 @@ TAttribute<FSlateColor> SFXTMainToolbar::Clr_byToolType(EFXTToolType CompareType
 
 	return TAttribute<FSlateColor>::Create(
 		TAttribute<FSlateColor>::FGetter::CreateLambda(Vis_IsCurrentTool_Lam));
+}
+
+TAttribute<const FSlateBrush*> SFXTMainToolbar::Border_byToolType(EFXTToolType CompareType)
+{
+	auto Border_byToolType_Lam = [this, CompareType] {
+		if (OwnerPtr.IsValid()
+			&& OwnerPtr.Pin()->GetCurrentTool() == CompareType) {
+			return FEditorStyle::GetBrush("ToolPanel.GroupBorder");
+		}
+		return FEditorStyle::GetBrush("ToolPanel.DarkGroupBorder");
+	};
+
+	return TAttribute<const FSlateBrush*>::Create(
+		TAttribute<const FSlateBrush*>::FGetter::CreateLambda(Border_byToolType_Lam));
 }
 
 FReply SFXTMainToolbar::BTN_Parent()

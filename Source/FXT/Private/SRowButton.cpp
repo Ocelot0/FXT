@@ -65,6 +65,7 @@ void SRowButton::Construct(const FArguments& InArgs)
 	ChildSlot
 	[
 		SNew(SButton)
+		.ContentPadding(FMargin(0.f, 0.f))
 		.ButtonStyle(&FEditorStyle::Get().GetWidgetStyle< FButtonStyle >("FlatButton"))
 		.OnClicked(this, &SRowButton::OnClicked)
 		.ToolTipText(TooltipText_Attr)

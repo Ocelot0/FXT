@@ -40,68 +40,108 @@ void SFXTParent::Construct(const FArguments& InArgs)
 	auto TXT_CurrentParent_Attr = TAttribute<FText>::Create(
 		TAttribute<FText>::FGetter::CreateLambda(TXT_CurrentParent_Lam));
 
-	auto TXT_CreateNewParentMessage_Lam = [this] {
-		return FXTC::T(TB_NewParentNameOutputMessage);
-	};
-	auto TXT_CreateNewParentMessage_Attr = TAttribute<FText>::Create(
-		TAttribute<FText>::FGetter::CreateLambda(TXT_CreateNewParentMessage_Lam));
-
 	//*Property
-	float ListViewWidth = 210.0f;
-	float TB_NewParentNameWidth = 175.0f;
+	float ListViewWidth = 230.0f;
+	float TB_NewParentNameWidth = 200.0f;
+	float SB_NewParentOffsetWidth = 60.0f;
+	float InputBoxHeight = 20.0f;
 
-	ChildSlot.Padding(4.f)
+	ChildSlot
 	[
-		SNew(SBorder).BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder")).Padding(4.f)[
+		SNew(SBorder).BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder")).Padding(2.f)[
 			SNew(SBox).VAlign(VAlign_Fill).HAlign(HAlign_Fill)[
 				SNew(SVerticalBox)
 				//*Tool pannel
 				+ SVerticalBox::Slot().AutoHeight()[
 					SNew(SVerticalBox)
-					//*Add Parent
-					+ SVerticalBox::Slot().AutoHeight()[
+					
+					+ SVerticalBox::Slot().AutoHeight().Padding(0.f, 0.f, 0.f, 2.f)[
 						SNew(SHorizontalBox)
-						//Create new parent button
-						+ SHorizontalBox::Slot().Padding(0.f, 0.f, 4.f, 4.f).AutoWidth()[
+						//*Add Parent
+						+ SHorizontalBox::Slot().AutoWidth()[
 							SNew(SFXTButton).OnClicked(this, &SFXTParent::OnClicked_CreateNewParent)
 							.bUseImage(true)
-							.Image(FXTStyle::Get().GetBrush("FXT.Icon24"))
+							.Image(FXTStyle::Get().GetBrush("FXT.Icon20"))
 							.InitialColor(FXTStyle::Clr_Default())
 							.ToolTipText(FXTC::T(BTN_CREATEPARENT_TOOLTIP))
 							.ButtonStyle(&FEditorStyle::Get(), "EditorViewportToolBar.MenuButton")
 							]//-SHorizontalBox::Slot()
-						//Create new parent utils
-						+ SHorizontalBox::Slot().MaxWidth(TB_NewParentNameWidth)[
-							SNew(SVerticalBox)
-							+ SVerticalBox::Slot().AutoHeight()[
-								SNew(SHorizontalBox)
-								+ SHorizontalBox::Slot()[
+						//*Add Parent option
+						+ SHorizontalBox::Slot().Padding(2.f, 2.f, 0.f, 0.f).MaxWidth(TB_NewParentNameWidth)[
+							SNew(SHorizontalBox)
+							+ SHorizontalBox::Slot()[
+								SNew(SVerticalBox) + SVerticalBox::Slot().MaxHeight(InputBoxHeight)[
 									SAssignNew(TB_NewParentName, SEditableTextBox)
-									.HintText(FXTC::T("Parent Name"))
+										.HintText(FXTC::T("Parent Name"))
+										.ToolTipText(FXTC::T(TB_NEWPARENTNAME_TOOLTIP))
 								]
-								//reset custom name text box
+							]//-SHorizontalBox::Slot()
+							//reset custom name text box
+							+ SHorizontalBox::Slot().AutoWidth().Padding(FMargin(2.f, 0.f))[
+								SNew(SVerticalBox) +SVerticalBox::Slot().AutoHeight()[
+									SNew(SFXTButton).OnClicked(this, &SFXTParent::OnClicked_ResetCustomName)
+									.bUseImage(true)
+									.Image(FEditorStyle::GetBrush("PropertyWindow.DiffersFromDefault"))
+									.InitialColor(FXTStyle::Clr_Default())
+									.ButtonStyle(FEditorStyle::Get(), "NoBorder")
+								]//-SVerticalBox::Slot()
+							]//-SHorizontalBox::Slot()
+						]//-SHorizontalBox::Slot() ;AddparentOption
+						//*Spinbox : pineapple spawn location offset from view location
+						+ SHorizontalBox::Slot().Padding(3.f, 0.f).MaxWidth(SB_NewParentOffsetWidth)[
+							SNew(SHorizontalBox)
+							+ SHorizontalBox::Slot().MaxWidth(16.f)[
+								SNew(SVerticalBox) + SVerticalBox::Slot().MaxHeight(16.f).VAlign(VAlign_Center)[
+									SNew(SImage).Image(FXTStyle::Get().GetBrush("EditorIcon.GenericLOD"))
+								]
+							]
+							+ SHorizontalBox::Slot().AutoWidth()[
+								SNew(SVerticalBox) + SVerticalBox::Slot().MaxHeight(InputBoxHeight)[
+									SNew(SSpinBox<float>).ContentPadding(0.f)
+										.ToolTipText(FXTC::T(SB_NEWPARENTVIEWOFFSET_TOOLTIP))
+										.MinValue(100.f).MaxValue(350.f).Delta(10.f)
+										.Value(NewParentOffset)
+										.OnValueChanged(this, &SFXTParent::OVC_NewParentOffset)
+								]
+							]
+						]
+						//* Goto sequencer option
+						+ SHorizontalBox::Slot().Padding(2.f, 2.f, 0.f, 0.f).AutoWidth()[
+							SNew(SVerticalBox) +SVerticalBox::Slot().AutoHeight().Padding(0.f, 0.f, 0.f, 2.f)[
+								SNew(SHorizontalBox)
+								//Goto sequencer option
 								+ SHorizontalBox::Slot().AutoWidth()[
-									SNew(SVerticalBox)
-									+ SVerticalBox::Slot().AutoHeight()[
-										SNew(SFXTButton).OnClicked(this, &SFXTParent::OnClicked_ResetCustomName)
-										.bUseImage(true)
-										.Image(FEditorStyle::GetBrush("PropertyWindow.DiffersFromDefault"))
-										.InitialColor(FXTStyle::Clr_Default())
-										.ButtonStyle(FEditorStyle::Get(), "NoBorder")
+									SNew(SHorizontalBox) + SHorizontalBox::Slot().MaxWidth(16.f)[
+										SNew(SVerticalBox) + SVerticalBox::Slot().MaxHeight(16.f).VAlign(VAlign_Center)[
+											SNew(SImage).Image(FXTStyle::Get().GetBrush("RowIcon.LevelSequenceActor"))
+										]
 									]
-								]
-							]
-							+ SVerticalBox::Slot().AutoHeight()[
-								SNew(STextBlock).Text(TXT_CreateNewParentMessage_Attr)
-							]
-						]//-SHorizontalBox::Slot()		
+									+ SHorizontalBox::Slot().AutoWidth()[
+										SNew(SVerticalBox) + SVerticalBox::Slot().MaxHeight(InputBoxHeight)[
+											//Open seq ed
+											SNew(SCheckBox).OnCheckStateChanged(this, &SFXTParent::CB_bGotoSeq_OpenSeqEditor)
+											.IsChecked(bGotoSeq_OpenSeqEditor ? ECheckBoxState::Checked : ECheckBoxState::Unchecked)
+											.ToolTipText(FXTC::T(CB_GOTOSEQOPENSEQ_TOOLTIP))
+										]
+									]
+									+ SHorizontalBox::Slot().AutoWidth()[
+										SNew(SVerticalBox) + SVerticalBox::Slot().MaxHeight(InputBoxHeight)[
+											//Focus
+											SNew(SCheckBox).OnCheckStateChanged(this, &SFXTParent::CB_bGotoSeq_Focus)
+											.IsChecked(bGotoSeq_Focus ? ECheckBoxState::Checked : ECheckBoxState::Unchecked)
+											.ToolTipText(FXTC::T(CB_GOTOSEQFOCUS_TOOLTIP))
+										]
+									]
+								]//-SHorizontalBox::Slot() ;Goto sequencer option
+							]//-SVerticalBox::Slot() ;Row button option
+						]//-SHorizontalBox::Slot() ;Row button option
 					]//-SVerticalBox::Slot()
 				]//-SVerticalBox::Slot()
 				+ SVerticalBox::Slot()[
 					SNew(SHorizontalBox)
 					//*FXTParentList
 					+ SHorizontalBox::Slot().MaxWidth(ListViewWidth)[
-						SNew(SBorder)[
+						SNew(SBorder).BorderImage(FEditorStyle::GetBrush("ToolPanel.DarkGroupBorder"))[
 							SAssignNew(FXTParentList, SListView<TSharedPtr<FXTParentListItemType>>)
 							.ListItemsSource(&FXTParentListItems)
 							.OnGenerateRow(this, &SFXTParent::OnGenerateRowFXTParentList)
@@ -128,8 +168,8 @@ void SFXTParent::Construct(const FArguments& InArgs)
 						]//-SBorder
 					]//-SHorizontalBox::Slot()
 					 //*FXTChildList
-					+ SHorizontalBox::Slot().MaxWidth(ListViewWidth)[
-						SNew(SBorder).Visibility(Vis_EditChildList_Attr)[
+					+ SHorizontalBox::Slot().Padding(2.f, 0.f).MaxWidth(ListViewWidth)[
+						SNew(SBorder).Visibility(Vis_EditChildList_Attr).BorderImage(FEditorStyle::GetBrush("ToolPanel.DarkGroupBorder"))[
 							SAssignNew(ChildListView, SListView<TSharedPtr<FXTParentListItemType>>)
 							.ListItemsSource(&ChildListViewItems)
 							.OnGenerateRow(this, &SFXTParent::OnGenerateRowChildListView)
@@ -194,8 +234,6 @@ void SFXTParent::OnActorLabelChanged(AActor* inActor)
 
 FReply SFXTParent::OnClicked_CreateNewParent()
 {
-	TB_NewParentNameOutputMessage = "";
-
 	//Check name dupling
 	bool bNameDupling = false;
 	FString CustomName = TB_NewParentName->GetText().ToString();
@@ -205,7 +243,6 @@ FReply SFXTParent::OnClicked_CreateNewParent()
 		for (AFXTParent* itr : AllParents){
 			if (FXTC::chkA(itr) && itr->GetActorLabel() == CustomName) {
 				bNameDupling = true;
-				TB_NewParentNameOutputMessage = "Failed : Already exist name.";
 				break;
 			}
 		}
@@ -216,7 +253,7 @@ FReply SFXTParent::OnClicked_CreateNewParent()
 		//Get spawn position
 		FVector EditorCameraDirection = client->GetViewRotation().Vector();
 		FVector EditorCameraPosition = client->GetViewLocation();
-		FVector SpawnLocation = EditorCameraPosition + (EditorCameraDirection * 128.0f);
+		FVector SpawnLocation = EditorCameraPosition + (EditorCameraDirection * NewParentOffset);
 
 		FTransform SpawnTransform = FTransform();
 		SpawnTransform.SetLocation(SpawnLocation);
@@ -226,8 +263,6 @@ FReply SFXTParent::OnClicked_CreateNewParent()
 
 		//Set Actor label
 		if (!CustomName.IsEmpty()) SpawnedActor->SetActorLabel(CustomName);
-
-		TB_NewParentNameOutputMessage = "Spawned : " + SpawnedActor->GetActorLabel();
 	}
 
 	return FReply::Handled();
@@ -240,6 +275,21 @@ FReply SFXTParent::OnClicked_ResetCustomName()
 	return FReply::Handled();
 }
 
+void SFXTParent::OVC_NewParentOffset(float NewValue)
+{
+	NewParentOffset = NewValue;
+}
+
+void SFXTParent::CB_bGotoSeq_OpenSeqEditor(ECheckBoxState NewValue)
+{
+	bGotoSeq_OpenSeqEditor = (NewValue == ECheckBoxState::Checked) ? true : false;
+}
+
+void SFXTParent::CB_bGotoSeq_Focus(ECheckBoxState NewValue)
+{
+	bGotoSeq_Focus = (NewValue == ECheckBoxState::Checked) ? true : false;
+}
+
 TSharedRef<ITableRow> SFXTParent::OnGenerateRowFXTParentList(TSharedPtr<FXTParentListItemType> InItem, const TSharedRef<STableViewBase>& OwnerTable)
 {
 	AFXTParent* A = FXTC::GetActorByLabel<AFXTParent>(InItem.Get()->Label);
@@ -248,6 +298,13 @@ TSharedRef<ITableRow> SFXTParent::OnGenerateRowFXTParentList(TSharedPtr<FXTParen
 	//Num of childs
 	int32 NumOfChilds = A->GetNumOfChilds();
 	FText NumOfChildsTEXT = FXTC::T( "(" + FString::FromInt(NumOfChilds) + ")");
+
+	//Num of sequencer
+	TArray<ALevelSequenceActor*> LSAs;
+	A->GetActorsFromChildList<ALevelSequenceActor>(LSAs);
+	int32 NumOfSeq = LSAs.Num();
+
+	float LabelTextMaxWidth = 100.0f;
 
 	return SNew(STableRow< TSharedPtr<FXTParentListItemType> >, OwnerTable)
 		.Padding(2.f)
@@ -262,8 +319,9 @@ TSharedRef<ITableRow> SFXTParent::OnGenerateRowFXTParentList(TSharedPtr<FXTParen
 				.ToolTipText(FXTC::T(BTN_HIDDENTOGGLE_TOOLTIP))
 			]
 			//Label
-			+ SHorizontalBox::Slot().AutoWidth().HAlign(HAlign_Fill).VAlign(VAlign_Center)[
+			+ SHorizontalBox::Slot().MaxWidth(LabelTextMaxWidth).AutoWidth().HAlign(HAlign_Fill).VAlign(VAlign_Center)[
 				SNew(STextBlock).Text(FXTC::T(InItem.Get()->Label)).TextStyle(FFXTStyle::GetTBStyle("ListViewText.Row"))
+					.ToolTipText(FXTC::T(InItem.Get()->Label))
 			]
 			//Num of childs
 			+ SHorizontalBox::Slot().Padding(2.f, 0.f).AutoWidth().HAlign(HAlign_Fill).VAlign(VAlign_Bottom)[
@@ -272,12 +330,41 @@ TSharedRef<ITableRow> SFXTParent::OnGenerateRowFXTParentList(TSharedPtr<FXTParen
 				.Font(FEditorStyle::Get().GetFontStyle("FontAwesome.9"))
 				.ColorAndOpacity(FXTStyle::Clr_Hidden())
 			]
-			//Add child button
+			//Utility Buttons
 			+ SHorizontalBox::Slot().HAlign(HAlign_Right)[
-				SNew(SRowButton).OnClicked(this, &SFXTParent::OnClickedRB_AddChild).RowLabel(InItem.Get()->Label)
-				.bUseImage(true)
-				.Image(FEditorStyle::GetBrush("PropertyWindow.Button_Use"))
-				.ToolTipText(FXTC::T(BTN_ADDCHILDFROMSELECTED_TOOLTIP))
+				SNew(SHorizontalBox)
+				//Add child button
+				+ SHorizontalBox::Slot().AutoWidth()[
+					SNew(SRowButton).OnClicked(this, &SFXTParent::OnClickedRB_AddChild).RowLabel(InItem.Get()->Label)
+					.bUseImage(true)
+					.Image(FEditorStyle::GetBrush("PropertyWindow.Button_Use"))
+					.ToolTipText(FXTC::T(BTN_ADDCHILDFROMSELECTED_TOOLTIP))
+				]
+				//remove parent button
+				+ SHorizontalBox::Slot().AutoWidth()[
+					SNew(SRowButton).OnClicked(this, &SFXTParent::OnClickedRB_DestroyParent).RowLabel(InItem.Get()->Label)
+						.bUseImage(true)
+						.Image(FEditorStyle::GetBrush("PropertyWindow.Button_Delete"))
+						.ToolTipText(FXTC::T(BTN_DESTROYPARENT_TOOLTIP))
+				]
+				//Goto button
+				+ SHorizontalBox::Slot().AutoWidth()[
+					SNew(SRowButton).OnClicked(this, &SFXTParent::OnClickedRB_GotoParent).RowLabel(InItem.Get()->Label)
+						.bUseImage(true)
+						.Image(FEditorStyle::GetBrush("PropertyWindow.Button_Browse"))
+						.ToolTipText(FXTC::T(BTN_GOTOPARENT_TOOLTIP))
+				]
+				//Goto seq button
+				+ SHorizontalBox::Slot().AutoWidth()[
+					SNew(SRowComboButton).RowLabel(InItem.Get()->Label)
+						.bUseImage(true)
+						.Image(FXTStyle::Get().GetBrush("FXT.GotoSeq"))
+						.InitialColor(NumOfSeq > 0 ? FXTStyle::Clr_Default() : FXTStyle::Clr_Hidden())
+						.ToolTipText(FXTC::T(BTN_GOTOSEQ_TOOLTIP))
+						.OnClicked(this, &SFXTParent::OnClickedRB_GotoSeq)
+						.OnUpdateSource(this, &SFXTParent::OUS_GotoSeq)
+						.OnItemSelect(this, &SFXTParent::OIS_GotoSeq)
+				]
 			]
 		];
 }
@@ -387,6 +474,89 @@ FReply SFXTParent::OnClickedRB_ChildHiddenToggle(const TSharedRef<SRowButton>& o
 	return FReply::Handled();
 }
 
+FReply SFXTParent::OnClickedRB_GotoParent(const TSharedRef<SRowButton>& outBTN)
+{
+	//get client for camera
+	FEditorViewportClient* client = (FEditorViewportClient*)GEditor->GetActiveViewport()->GetClient();
+	if (client) {
+
+		//*Get actor of row
+		const FString& outLabel = outBTN.Get().GetRowLabel();
+		AFXTParent* A = FXTC::GetActorByLabel<AFXTParent>(outLabel);
+
+		if (FXTC::chkA(A)) {
+			//make camera destination
+			FVector Destination = A->GetActorLocation() - client->GetViewRotation().Vector() * 128.0f;
+
+			//Set editor camera location
+			client->SetViewLocation(Destination);
+
+			//select target actor
+			GEditor->SelectNone(true, true, true);
+			GEditor->SelectActor(A, true, true, true, true);
+		}
+	}
+
+	return FReply::Handled();
+}
+
+FReply SFXTParent::OnClickedRB_GotoSeq(const TSharedRef<SRowComboButton>& outBTN)
+{
+	return FReply::Handled();
+}
+
+void SFXTParent::OUS_GotoSeq(TArray<TSharedPtr<FString>>& outItem, const TSharedRef<SRowComboButton>& outBTN)
+{
+	//*Get actor of row
+	const FString& outLabel = outBTN.Get().GetRowLabel();
+	AFXTParent* A = FXTC::GetActorByLabel<AFXTParent>(outLabel);
+
+	if (FXTC::chkA(A)) {
+		TArray<ALevelSequenceActor*> LSAs;
+
+		outItem.Empty();
+		if (A->GetActorsFromChildList<ALevelSequenceActor>(LSAs))
+		{
+			for (ALevelSequenceActor* i : LSAs) {
+				outItem.Add( MakeShareable(new FString(i->GetActorLabel())) );
+			}
+		}
+	}
+}
+
+void SFXTParent::OIS_GotoSeq(FString& outLabel)
+{
+	ALevelSequenceActor* LSA = FXTC::GetActorByLabel<ALevelSequenceActor>(outLabel);
+
+	if (FXTC::chkA(LSA)) {
+		//select target actor
+		GEditor->SelectNone(true, true, true);
+		GEditor->SelectActor(LSA, true, true, true, true);
+
+		//get client for camera
+		if (bGotoSeq_Focus)
+		{
+			FEditorViewportClient* client = (FEditorViewportClient*)GEditor->GetActiveViewport()->GetClient();
+			if (client) {
+
+				//make camera destination
+				FVector Destination = LSA->GetActorLocation() - client->GetViewRotation().Vector() * 128.0f;
+
+				//Set editor camera location
+				client->SetViewLocation(Destination);
+			}
+		}
+
+		//open level sequence editor
+		if (bGotoSeq_OpenSeqEditor) {
+			UObject* LoadedObject = LSA->LevelSequence.TryLoad();
+			if (LoadedObject != nullptr) {
+				FAssetEditorManager::Get().OpenEditorForAsset(LoadedObject);
+			}
+		}
+	}
+}
+
 FReply SFXTParent::OnClickedRB_AddChild(const TSharedRef<SRowButton>& outBTN)
 {
 	//*Get actor of row
@@ -409,22 +579,122 @@ FReply SFXTParent::OnClickedRB_AddChild(const TSharedRef<SRowButton>& outBTN)
 	return FReply::Handled();
 }
 
+FReply SFXTParent::OnClickedRB_DestroyParent(const TSharedRef<SRowButton>& outBTN)
+{
+	//*Get actor of row
+	const FString& outLabel = outBTN.Get().GetRowLabel();
+	AFXTParent* A = FXTC::GetActorByLabel<AFXTParent>(outLabel);
+
+	//*Reset list
+	if (FXTC::chkA(A)) {
+		//* Warning Message popup
+		FText Message = FXTC::T(
+			"Destroy [" + A->GetActorLabel() + "]. Proceed? \n"
+			+ "Yes : Destroy only Parent \n"
+			+ "No : Abort \n"
+			+ "YesAll : Destroy Parent and all childs");
+		FText Title = FXTC::T("Confirm");
+
+		EAppReturnType::Type Dialogresult = FMessageDialog::Open(EAppMsgType::YesNoYesAll, Message, &Title);
+		
+		//*Destroy parent and all childs
+		if (Dialogresult == EAppReturnType::YesAll)
+		{
+			FText Message = FXTC::T(
+				"Destroy [" + FString::FromInt(A->GetNumOfChilds()) + "] actors from [" + A->GetActorLabel() + "] Proceed?");
+
+			Dialogresult = FMessageDialog::Open(EAppMsgType::YesNo, Message, &Title);
+
+			if (Dialogresult == EAppReturnType::Yes) {
+				TArray<AActor*> DestroyList;
+				A->GetChildList(DestroyList);
+
+				//clear child array
+				A->ResetChildList();
+
+				//Destroy Child Actors
+				for (AActor* i : DestroyList) {
+					i->ConditionalBeginDestroy();
+				}
+
+				//Destroy Parent
+				A->ConditionalBeginDestroy();
+
+				//Update list view
+				UpdateFXTParentList();
+			}
+		}
+
+		//*Destroy parent only
+		if (Dialogresult == EAppReturnType::Yes)
+		{
+			//clear child array
+			A->ResetChildList();
+
+			//Destroy Parent
+			A->ConditionalBeginDestroy();
+
+			//Update list view
+			UpdateFXTParentList();
+		}
+	}
+
+	return FReply::Handled();
+}
+
 TSharedRef<ITableRow> SFXTParent::OnGenerateRowChildListView(TSharedPtr<FXTParentListItemType> InItem, const TSharedRef<STableViewBase>& OwnerTable)
 {
+	//* Get Actor of Label
+	const FString& outLabel = InItem.Get()->Label;
+	AActor* A = FXTC::GetActorByLabel<AActor>(outLabel);
+
+	//Class Text
+	FString ClassStr = A->GetClass()->GetFName().ToString();
+	FText ClassText = FXTC::T(ClassStr);
+
+	//Get Icon Brush
+	FName IconBrushName = FName(*FString("RowIcon." + ClassStr));
+
+	const FSlateBrush* DefaultIconBrush = FXTStyle::Get().GetBrush("RowIcon.Default");
+	const FSlateBrush* IconBrush = FXTStyle::Get().GetBrush(IconBrushName);
+	bool bUseDefaultIconBrush = IconBrush->GetResourceName().ToString().Right(16) == "Checkerboard.png" ? true : false;
+
+	UE_LOG(LogTemp, Warning, TEXT("given[%s] result[%s]"), *IconBrushName.ToString(), *IconBrush->GetResourceName().ToString().Right(16));
+	
+	
+
 	return SNew(STableRow< TSharedPtr<FXTParentListItemType> >, OwnerTable)
 	.Padding(2.f)
 	[
 		SNew(SHorizontalBox)
+		//Icon
+		+ SHorizontalBox::Slot().Padding(1.0f, 0.0f).AutoWidth().HAlign(HAlign_Fill).VAlign(VAlign_Center)[
+			SNew(SImage)
+			.Image(bUseDefaultIconBrush ? DefaultIconBrush : IconBrush)
+			.ColorAndOpacity(FFXTStyle::Clr_Default())
+			.ToolTipText(ClassText)
+		]
 		//Label
 		+ SHorizontalBox::Slot().AutoWidth().HAlign(HAlign_Fill).VAlign(VAlign_Center)[
 			SNew(STextBlock).Text(FXTC::T(InItem.Get()->Label)).TextStyle(FFXTStyle::GetTBStyle("ListViewText.Row"))
 		]
-		//remove child button
+		//Utility Buttons
 		+ SHorizontalBox::Slot().HAlign(HAlign_Right)[
-			SNew(SRowButton).OnClicked(this, &SFXTParent::OnClickedRB_RemoveChild).RowLabel(InItem.Get()->Label)
-			.bUseImage(true)
-			.Image(FEditorStyle::GetBrush("PropertyWindow.Button_Delete"))
-			.ToolTipText(FXTC::T(BTN_REMOVECHILD_TOOLTIP))
+			SNew(SHorizontalBox)
+			//remove child button
+			+ SHorizontalBox::Slot().AutoWidth()[
+				SNew(SRowButton).OnClicked(this, &SFXTParent::OnClickedRB_RemoveChild).RowLabel(InItem.Get()->Label)
+				.bUseImage(true)
+				.Image(FEditorStyle::GetBrush("PropertyWindow.Button_Delete"))
+				.ToolTipText(FXTC::T(BTN_REMOVECHILD_TOOLTIP))
+			]
+			//goto child button
+			+ SHorizontalBox::Slot().AutoWidth()[
+				SNew(SRowButton).OnClicked(this, &SFXTParent::OnClickedRB_GotoChild).RowLabel(InItem.Get()->Label)
+					.bUseImage(true)
+					.Image(FEditorStyle::GetBrush("PropertyWindow.Button_Browse"))
+					.ToolTipText(FXTC::T(BTN_GOTOCHILD_TOOLTIP))
+			]
 		]
 	];
 }
@@ -474,7 +744,7 @@ void SFXTParent::OnSelectionChangedChildListView(TSharedPtr<FXTParentListItemTyp
 FReply SFXTParent::OnClicked_ResetChildList()
 {
 	if (!FXTParentList->GetNumItemsSelected() == 1) return FReply::Handled();
-	
+
 	//*Get selected parent actor
 	TArray<TSharedPtr<FXTParentListItemType>> SelectedParents = FXTParentList->GetSelectedItems();
 
@@ -482,13 +752,51 @@ FReply SFXTParent::OnClicked_ResetChildList()
 	AFXTParent* A = FXTC::GetActorByLabel<AFXTParent>(outLabel);
 
 	//*Reset list
-	if (FXTC::chkA(A)) {
-		A->ResetChildList();
-		
-		//*Update list view
-		UpdateFXTParentList();
+	if (FXTC::chkA(A) && A->GetNumOfChilds() > 0) {
+		//* Warning Message popup
+		FText Message = FXTC::T(
+			"Remove [" + FString::FromInt(A->GetNumOfChilds()) + "] childs from [" + A->GetActorLabel() 
+			+ "].\n"
+			+ "It won't destroy actors, only remove reference from parent. Proceed?");
+		FText Title = FXTC::T("Confirm");
+
+		EAppReturnType::Type Dialogresult = FMessageDialog::Open(EAppMsgType::YesNo, Message, &Title);
+
+		if (Dialogresult == EAppReturnType::Yes)
+		{
+			A->ResetChildList();
+
+			//*Update list view
+			UpdateFXTParentList();
+		}
 	}
 	
+	return FReply::Handled();
+}
+
+FReply SFXTParent::OnClickedRB_GotoChild(const TSharedRef<SRowButton>& outBTN)
+{
+	//get client for camera
+	FEditorViewportClient* client = (FEditorViewportClient*)GEditor->GetActiveViewport()->GetClient();
+	if (client) {
+
+		//*Get actor of row
+		const FString& outLabel = outBTN.Get().GetRowLabel();
+		AActor* A = FXTC::GetActorByLabel<AActor>(outLabel);
+
+		if (FXTC::chkA(A)) {
+			//make camera destination
+			FVector Destination = A->GetActorLocation() - client->GetViewRotation().Vector() * 128.0f;
+
+			//Set editor camera location
+			client->SetViewLocation(Destination);
+
+			//select target actor
+			GEditor->SelectNone(true, true, true);
+			GEditor->SelectActor(A, true, true, true, true);
+		}
+	}
+
 	return FReply::Handled();
 }
 

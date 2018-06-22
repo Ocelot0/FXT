@@ -57,6 +57,16 @@ class AActor;
 		P_NATIVE_END; \
 	} \
  \
+	DECLARE_FUNCTION(execGetActorsFromChildListByClassFName) \
+	{ \
+		P_GET_TARRAY_REF(AActor*,Z_Param_Out_outResult); \
+		P_GET_PROPERTY(UNameProperty,Z_Param_ClassFName); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		*(bool*)Z_Param__Result=P_THIS->GetActorsFromChildListByClassFName(Z_Param_Out_outResult,Z_Param_ClassFName); \
+		P_NATIVE_END; \
+	} \
+ \
 	DECLARE_FUNCTION(execGetChildList) \
 	{ \
 		P_GET_TARRAY_REF(AActor*,Z_Param_Out_outchildlist); \
@@ -124,6 +134,16 @@ class AActor;
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		*(int32*)Z_Param__Result=P_THIS->GetNumOfChilds(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execGetActorsFromChildListByClassFName) \
+	{ \
+		P_GET_TARRAY_REF(AActor*,Z_Param_Out_outResult); \
+		P_GET_PROPERTY(UNameProperty,Z_Param_ClassFName); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		*(bool*)Z_Param__Result=P_THIS->GetActorsFromChildListByClassFName(Z_Param_Out_outResult,Z_Param_ClassFName); \
 		P_NATIVE_END; \
 	} \
  \

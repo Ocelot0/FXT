@@ -45,4 +45,8 @@ public:
 	static FSlateColor Clr_Error() { return FSlateColor(FColor(255, 0, 0, 255)); }
 	static FSlateColor Clr_Black() { return FSlateColor(FColor(0, 0, 0, 255)); }
 	static FSlateColor Clr_Toggle() { return FSlateColor(FColor(255, 255, 0, 255)); }
+
+public:
+	//*Icon brush valid check
+	//static FName GetIconBrushNameChecked(FName ClassFName = "Actor");
 };

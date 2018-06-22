@@ -13,6 +13,7 @@
 #include "STableRow.h"
 
 class AFXTParent;
+class SRowComboButton;
 
 struct FXTParentListItemType
 {
@@ -56,8 +57,18 @@ private:
 
 	//Create new parent
 	FReply OnClicked_CreateNewParent();
-
 	FReply OnClicked_ResetCustomName();
+
+	//New parent option
+	float NewParentOffset = 128.0f;
+	void OVC_NewParentOffset(float NewValue);
+
+	//Goto sequence option
+	bool bGotoSeq_OpenSeqEditor = true;
+	void CB_bGotoSeq_OpenSeqEditor(ECheckBoxState NewValue);
+
+	bool bGotoSeq_Focus = false;
+	void CB_bGotoSeq_Focus(ECheckBoxState NewValue);
 
 private:
 	//*ListView : AFXTParent
@@ -92,6 +103,19 @@ private:
 	//Add child button
 	FReply OnClickedRB_AddChild(const TSharedRef<SRowButton>& outBTN);
 
+	//Add child button
+	FReply OnClickedRB_DestroyParent(const TSharedRef<SRowButton>& outBTN);
+
+	//goto button
+	FReply OnClickedRB_GotoParent(const TSharedRef<SRowButton>& outBTN);
+
+	//goto seq button
+	FReply OnClickedRB_GotoSeq(const TSharedRef<SRowComboButton>& outBTN);
+	void OUS_GotoSeq(TArray<TSharedPtr<FString>>& outItem, const TSharedRef<SRowComboButton>& outBTN);
+	void OIS_GotoSeq(FString& outLabel);
+
+
+
 private:
 	//*ListView :: Child List
 	bool bEditChildList = false;
@@ -115,5 +139,6 @@ private:
 	//*Child list view button
 	FReply OnClicked_ResetChildList();
 
+	FReply OnClickedRB_GotoChild(const TSharedRef<SRowButton>& outBTN);
 	FReply OnClickedRB_RemoveChild(const TSharedRef<SRowButton>& outBTN);
 };

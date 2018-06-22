@@ -22,9 +22,14 @@ public class FXT : ModuleRules
 				// ... add other private include paths required here ...
 			}
 			);
-			
-		
-		PublicDependencyModuleNames.AddRange(
+
+        PrivateIncludePathModuleNames.AddRange(
+            new string[] {
+                "LevelSequence",
+            }
+            );
+
+        PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"Core",
@@ -44,7 +49,8 @@ public class FXT : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "EditorStyle"
+                "EditorStyle",
+                "LevelSequence"
             }
 			);
 		

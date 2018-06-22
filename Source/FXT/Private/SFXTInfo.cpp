@@ -13,7 +13,7 @@ void SFXTInfo::Construct(const FArguments& InArgs)
 		LicenseTextListSrc.Add(MakeShareable(new FString(i)));
 	}
 
-	ChildSlot.Padding(4.f)
+	ChildSlot
 	[
 		SNew(SBorder).BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder")).Padding(4.f)[
 			SNew(SBox).VAlign(VAlign_Fill).HAlign(HAlign_Fill)[
