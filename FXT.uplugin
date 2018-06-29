@@ -1,9 +1,9 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.2",
+	"VersionName": "1.3",
 	"FriendlyName": "FXT",
-	"Description": "Realtime Visual Effect Tools",
+	"Description": "FX Tool",
 	"Category": "Other",
 	"CreatedBy": "GilSuLee",
 	"CreatedByURL": "http://blog.naver.com/contact90",

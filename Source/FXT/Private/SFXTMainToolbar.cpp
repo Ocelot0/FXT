@@ -38,6 +38,16 @@ void SFXTMainToolbar::Construct(const FArguments& InArgs, const TSharedRef<SFXTM
 							.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
 					]//-SBorder
 				]//-SHorizontalBox::Slot()
+				 //*PIE Tool Button
+				+ SHorizontalBox::Slot().AutoWidth()[
+					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EPIE)).Padding(0.f)[
+						SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_PIE)
+							.bUseImage(true)
+							.Image(FXTStyle::Get().GetBrush("EditorIcon.PIE"))
+							.ToolTipText(FText::FromString(FXT_TOOLNAME_PIE))
+							.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+					]//-SBorder
+				]//-SHorizontalBox::Slot()
 				//*Info Button
 				+ SHorizontalBox::Slot().AutoWidth()[
 					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EInfo)).Padding(0.f)[
@@ -86,6 +96,16 @@ FReply SFXTMainToolbar::BTN_Parent()
 
 	if (OwnerWidget.IsValid()) {
 		OwnerWidget->SetCurrentTool(EFXTToolType::EParent);
+	}
+
+	return FReply::Handled();
+}
+FReply SFXTMainToolbar::BTN_PIE()
+{
+	const TSharedPtr<SFXTMain> OwnerWidget = OwnerPtr.Pin();
+
+	if (OwnerWidget.IsValid()) {
+		OwnerWidget->SetCurrentTool(EFXTToolType::EPIE);
 	}
 
 	return FReply::Handled();

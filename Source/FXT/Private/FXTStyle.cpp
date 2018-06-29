@@ -66,7 +66,12 @@ TSharedRef< FSlateStyleSet > FFXTStyle::Create()
 	Style->SetContentRoot(FPaths::EngineContentDir() / TEXT("Editor/Slate"));
 	Style->Set("EditorIcon.Detail", new IMAGE_BRUSH(TEXT("Icons/icon_tab_SelectionDetails_16x"), Icon16x16));
 	Style->Set("EditorIcon.SceneOutliner", new IMAGE_BRUSH(TEXT("Icons/icon_tab_SceneOutliner_16x"), Icon16x16));
+	Style->Set("EditorIcon.PIE", new IMAGE_BRUSH(TEXT("Icons/icon_playInSelectedViewport_16x"), Icon16x16));
 	Style->Set("EditorIcon.GenericLOD", new IMAGE_BRUSH(TEXT("Icons/icon_Cascade_GenericLOD_40x"), Icon40x40));
+	Style->Set("EditorIcon.Simulate", new IMAGE_BRUSH(TEXT("Icons/icon_simulate_40x"), Icon40x40));
+	Style->Set("EditorIcon.PlayActiveViewport", new IMAGE_BRUSH(TEXT("Icons/icon_playInSelectedViewport_40x"), Icon40x40));
+	Style->Set("EditorIcon.PlayNewWindow", new IMAGE_BRUSH(TEXT("Icons/icon_playInWindow_40x"), Icon40x40));
+	Style->Set("EditorIcon.PIEStop", new IMAGE_BRUSH(TEXT("Icons/icon_stop_40x"), Icon40x40));
 
 	Style->Set("RowIcon.Default", new IMAGE_BRUSH(TEXT("Icons/AssetIcons/Default_16x"), Icon16x16));
 	Style->Set("RowIcon.Actor", new IMAGE_BRUSH(TEXT("Icons/AssetIcons/Actor_16x"), Icon16x16));
@@ -76,7 +81,17 @@ TSharedRef< FSlateStyleSet > FFXTStyle::Create()
 	Style->Set("RowIcon.Emitter", new IMAGE_BRUSH(TEXT("Icons/AssetIcons/ParticleSystem_16x"), Icon16x16));
 	Style->Set("RowIcon.CineCameraActor", new IMAGE_BRUSH(TEXT("Icons/AssetIcons/CineCameraActor_16x"), Icon16x16));
 
+	//seq controller
+	Style->Set("EditorIcon.GotoFront", new IMAGE_BRUSH(TEXT("Sequencer/Transport_Bar/Go_To_Front_24x"), Icon24x24));
+	Style->Set("EditorIcon.PlaySeq", new IMAGE_BRUSH(TEXT("Sequencer/Transport_Bar/Play_24x"), Icon24x24));
+	Style->Set("EditorIcon.PauseSeq", new IMAGE_BRUSH(TEXT("Sequencer/Transport_Bar/Pause_24x"), Icon24x24));
+
 	//*Text Block Style (TBStyle)
+	const FTextBlockStyle DefaultText = FTextBlockStyle()
+		.SetFont(FEditorStyle::Get().GetFontStyle("FontAwesome.9"))
+		.SetColorAndOpacity(FSlateColor(FColor(255, 255, 255, 255)));
+	Style->Set("DefaultText", DefaultText);
+
 	const FTextBlockStyle FooterText = FTextBlockStyle()
 		.SetFont(FEditorStyle::Get().GetFontStyle("FontAwesome.9"))
 		.SetColorAndOpacity(FSlateColor(FColor(128, 128, 128, 255)));

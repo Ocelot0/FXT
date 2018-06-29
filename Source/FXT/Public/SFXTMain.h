@@ -18,8 +18,17 @@ public:
 	{}
 	SLATE_END_ARGS()
 
+	~SFXTMain();
+
 	/** Constructs this widget with InArgs */
 	void Construct(const FArguments& InArgs);
+
+private:
+	bool bInPIE = false;
+	void OnBeginPIE(const bool bBeginPIE);
+	void OnEndPIE(const bool bEndPIE);
+	void OnFullyEndPIE();
+	FTimerHandle PIEFullyFinishTimerHandle;
 
 public:
 	FString DebugStr = "Main widget";
@@ -31,5 +40,6 @@ public:
 	EFXTToolType GetCurrentTool() { return CurrentTool; }
 	void SetCurrentTool(EFXTToolType NewToolType);
 	TAttribute<EVisibility> Vis_byToolType(EFXTToolType CompareType);
+
 
 };

@@ -50,7 +50,8 @@ public class FXT : ModuleRules
                 "Slate",
                 "SlateCore",
                 "EditorStyle",
-                "LevelSequence"
+                "LevelSequence",
+                "MovieScene"
             }
 			);
 		

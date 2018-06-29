@@ -17,8 +17,8 @@
 #include "STextComboBox.h" //Menu anchor
 
 DECLARE_DELEGATE_RetVal_OneParam(FReply, FRowCBTNOnClicked, const TSharedRef<class SRowComboButton>&)
-DECLARE_DELEGATE_TwoParams(FOnUpdateSource, TArray<TSharedPtr<FString>>&, const TSharedRef<class SRowComboButton>&)
-DECLARE_DELEGATE_OneParam(FOnItemSelect, FString&)
+DECLARE_DELEGATE_TwoParams(FRowOnUpdateSource, TArray<TSharedPtr<FString>>&, const TSharedRef<class SRowComboButton>&)
+DECLARE_DELEGATE_OneParam(FRowOnItemSelect, FString&)
 
 class FXT_API SRowComboButton : public SMenuAnchor
 {
@@ -48,8 +48,8 @@ public:
 	SLATE_ARGUMENT(FString, RowLabel)
 
 	SLATE_EVENT(FRowCBTNOnClicked, OnClicked)
-	SLATE_EVENT(FOnUpdateSource, OnUpdateSource)
-	SLATE_EVENT(FOnItemSelect, OnItemSelect)
+	SLATE_EVENT(FRowOnUpdateSource, OnUpdateSource)
+	SLATE_EVENT(FRowOnItemSelect, OnItemSelect)
 
 	SLATE_END_ARGS()
 
@@ -80,8 +80,8 @@ private:
 	void OSC_Combo(TSharedPtr<FString> InItem, ESelectInfo::Type SelectInfo);
 
 	//Callback
-	FOnUpdateSource OnUpdateSource;
-	FOnItemSelect OnItemSelect;
+	FRowOnUpdateSource OnUpdateSource;
+	FRowOnItemSelect OnItemSelect;
 	
 
 

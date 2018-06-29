@@ -48,6 +48,11 @@ private:
 	void OnLevelActorDeleted(AActor* InActor);
 	void OnActorLabelChanged(AActor* inActor);
 
+	void OnBeginPIE(const bool bBeginPIE);
+	void OnEndPIE(const bool bEndPIE);
+	void OnFullyEndPIE();
+	FTimerHandle PIEFullyFinishTimerHandle;
+
 private:
 	//*Tool Pannel
 	//*Create new parent actor

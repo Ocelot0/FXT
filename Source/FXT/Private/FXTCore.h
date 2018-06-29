@@ -7,11 +7,13 @@
 
 #include "CoreMinimal.h"
 
-//Enginee Header
+//Engine Header
 #include "Runtime/Launch/Resources/Version.h"	//provide current engine version info
 #include "Editor.h"
 #include "Engine.h"
 #include "LevelUtils.h"
+#include "LevelEditor.h"
+#include "ILevelViewport.h"
 #include "ActorEditorUtils.h"
 #include "IPluginManager.h"
 #include "EditorStyleSet.h"			//provide FEditorStyle
@@ -33,9 +35,11 @@
 #include "SSeparator.h"
 #include "SCheckBox.h"
 #include "SSpinBox.h"
+#include "SSlider.h"
 
 //Style set
 #include "FXTStyle.h"
+#include "FXTGameMode.h"
 
 //FXT SlateWidget
 #include "SRowButton.h"
@@ -44,7 +48,10 @@
 #include "SFXTMainToolbar.h"
 #include "SFXTParent.h"
 #include "SFXTInfo.h"
+#include "SFXTComboButton.h"
 #include "SRowComboButton.h"
+#include "SPIETool.h"
+#include "SInPIE.h"
 
 //FXT Class
 #include "FXTParent.h"
@@ -53,13 +60,13 @@
 #define PLUGIN_RESOUCRES_PATH IPluginManager::Get().FindPlugin("FXT")->GetBaseDir() / TEXT("Resources")
 
 //* Strings
-#define FULLNAME "Realtime Effect Tool"
+#define FULLNAME "FX Tool"
 #define SHORTNAME "FXT"
 
 //Tab string
 #define TOOLBARBUTTON_LABEL "FXT"
-#define TOOLBARBUTTON_TOOLTIP "Open Realtime Effect Tool"
-#define TAB_LABEL "Realtime Effect Tool"
+#define TOOLBARBUTTON_TOOLTIP "Open FX Tool"
+#define TAB_LABEL "FX Tool"
 #define TOOLBAREXTENTIONHOOK "Compile"
 
 //Button tooltips
@@ -74,6 +81,10 @@
 #define BTN_GOTOPARENT_TOOLTIP "Goto"
 #define BTN_GOTOSEQ_TOOLTIP "Goto sequencer"
 #define BTN_CREATEPARENT_WIKIPAGE "Wiki page"
+#define BTN_PLAY_TOOLTIP "PIE: Play, ActiveViewport"
+#define BTN_SIMULATE_TOOLTIP "PIE: Simulate, ActiveViewport"
+#define BTN_PLAYNEWWINDOW_TOOLTIP "PIE: Play, NewWindow"
+#define BTN_STOPPIE_TOOLTIP "Stop PIE"
 
 //tooltips
 #define TB_NEWPARENTNAME_TOOLTIP "This will be used as the name of the new parent"
@@ -81,8 +92,26 @@
 #define CB_GOTOSEQOPENSEQ_TOOLTIP " Goto Sequencer \n Open Sequencer Editor?"
 #define CB_GOTOSEQFOCUS_TOOLTIP "Goto Sequencer \n Move camera to target?"
 
+//PIE
+#define DESC_PIEMODE_0 "Unable to use FXT while running PIE"
+#define DESC_PIEMODE_1 "Use stop button or ESC key to exit PIE"
+#define CB_IMMERSIVEONPIE "Toggle immersive on PIE"
+
+//Sequencer autoplay
+#define CB_SEQUENCERAUTOPLAY "Play sequencer on PIE"
+#define CB_SEQUENCERAUTOPLAY_TOOLTIP "Level sequencer actor\nto play on PIE"
+#define CB_SEQUENCERAUTOPLAY_DEFAULT "Select Sequence"
+#define SB_HOWMANYTIMESLOOP "How many times play sequencer? -1:Infinite 0:Once 1+:Additional play counts(999 maximum)"
+#define SB_HOWMANYTIMESLOOP_TOOLTIP "Num Loops\n-1:Infinite\n0:Once\n1+:Additional play counts"
+
+//Sequencer controller
+#define BTN_SEQGOTOFRONT_TOOLTIP "Goto front"
+#define BTN_SEQPLAY_TOOLTIP "Play"
+#define BTN_SEQPAUSE_TOOLTIP "Pause"
+
 //*Tool Name
 #define FXT_TOOLNAME_PARENT "Parent Tool"
+#define FXT_TOOLNAME_PIE "PIE Tool"
 #define FXT_TOOLNAME_INFO "Information"
 
 UENUM()
@@ -90,7 +119,15 @@ enum class EFXTToolType
 {
 	EDefault,
 	EParent,
+	EPIE,
 	EInfo
+};
+
+struct FFXTDelegate
+{
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnAutoSequencePlay, ALevelSequenceActor*)
+
+	static FOnAutoSequencePlay OnAutoSequencePlay;
 };
 
 //*Static Functions

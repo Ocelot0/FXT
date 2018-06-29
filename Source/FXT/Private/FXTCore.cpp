@@ -5,6 +5,8 @@
 
 #include "FXTCore.h"
 
+FFXTDelegate::FOnAutoSequencePlay FFXTDelegate::OnAutoSequencePlay;
+
 FText FFXTCore::T(FString Str, FString Key)
 {
 	if (Key == "NULL") return FText::FromString(Str);

@@ -13,6 +13,9 @@ SFXTParent::~SFXTParent()
 	GEngine->OnLevelActorAdded().RemoveAll(this);
 	GEngine->OnLevelActorDeleted().RemoveAll(this);
 	FCoreDelegates::OnActorLabelChanged.RemoveAll(this);
+
+	FEditorDelegates::BeginPIE.RemoveAll(this);
+	FEditorDelegates::EndPIE.RemoveAll(this);
 }
 
 void SFXTParent::Construct(const FArguments& InArgs)
@@ -21,6 +24,9 @@ void SFXTParent::Construct(const FArguments& InArgs)
 	GEngine->OnLevelActorAdded().AddSP(this, &SFXTParent::OnLevelActorAdded);
 	GEngine->OnLevelActorDeleted().AddSP(this, &SFXTParent::OnLevelActorDeleted);
 	FCoreDelegates::OnActorLabelChanged.AddRaw(this, &SFXTParent::OnActorLabelChanged);
+
+	FEditorDelegates::BeginPIE.AddSP(this, &SFXTParent::OnBeginPIE);
+	FEditorDelegates::EndPIE.AddSP(this, &SFXTParent::OnEndPIE);
 
 	//*Visibility
 	auto Vis_EditChildList_Lam = [this] {
@@ -98,10 +104,10 @@ void SFXTParent::Construct(const FArguments& InArgs)
 							+ SHorizontalBox::Slot().AutoWidth()[
 								SNew(SVerticalBox) + SVerticalBox::Slot().MaxHeight(InputBoxHeight)[
 									SNew(SSpinBox<float>).ContentPadding(0.f)
-										.ToolTipText(FXTC::T(SB_NEWPARENTVIEWOFFSET_TOOLTIP))
-										.MinValue(100.f).MaxValue(350.f).Delta(10.f)
-										.Value(NewParentOffset)
-										.OnValueChanged(this, &SFXTParent::OVC_NewParentOffset)
+									.ToolTipText(FXTC::T(SB_NEWPARENTVIEWOFFSET_TOOLTIP))
+									.MinValue(100.f).MaxValue(350.f).Delta(10.f)
+									.Value(NewParentOffset)
+									.OnValueChanged(this, &SFXTParent::OVC_NewParentOffset)
 								]
 							]
 						]
@@ -229,6 +235,25 @@ void SFXTParent::OnLevelActorDeleted(AActor* InActor)
 void SFXTParent::OnActorLabelChanged(AActor* inActor)
 {
 	//Update List
+	UpdateFXTParentList();
+}
+
+void SFXTParent::OnBeginPIE(const bool bBeginPIE)
+{
+}
+
+void SFXTParent::OnEndPIE(const bool bEndPIE)
+{
+	//Start Timer until PIE fully finish
+	GEditor->GetTimerManager().Get().SetTimer(
+		PIEFullyFinishTimerHandle, FTimerDelegate::CreateSP(this, &SFXTParent::OnFullyEndPIE), 0.03f, false, 0.03f);
+}
+
+void SFXTParent::OnFullyEndPIE()
+{
+	//reset timer manager
+	GEditor->GetTimerManager()->ClearTimer(PIEFullyFinishTimerHandle);
+
 	UpdateFXTParentList();
 }
 

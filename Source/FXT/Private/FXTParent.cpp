@@ -209,27 +209,46 @@ void AFXTParent::AddChildFromSelectedActors()
 			}
 		}
 
-		//check mobility is static
-		TArray<UStaticMeshComponent*> SMCs;
-		for (int32 i = 0; i < currentselectedactors.Num(); i++) {
-			//Get All Components of actor
-			TArray<UActorComponent*> StaticMeshComps = currentselectedactors[i]->GetComponentsByClass(UStaticMeshComponent::StaticClass());
+		//SceneComponents for check mobility
+		TArray<USceneComponent*> StaticSceneComponents;
 
-			//foreach component
-			for (UActorComponent* j : StaticMeshComps) {
-				UStaticMeshComponent* SMC = Cast<UStaticMeshComponent>(j);
-				if (SMC && SMC->Mobility == EComponentMobility::Static) {
-					//found static staticmesh
-					SMCs.Add(SMC);
+		//*foreach selected actors
+		for (int32 i = 0; i < currentselectedactors.Num(); i++) {
+
+			//*for only root component
+			{
+				USceneComponent* SceneComponent = currentselectedactors[i]->GetRootComponent();
+
+				//Set Location to Absolute
+				SceneComponent->SetAbsolute(true);
+			}
+
+			//*for all subobjects
+			{
+				//Get All Components of actor
+				TArray<UActorComponent*> StaticMeshComps = currentselectedactors[i]->GetComponentsByClass(USceneComponent::StaticClass());
+
+				//foreach actor component
+				for (UActorComponent* j : StaticMeshComps) {
+					//as scene components
+					USceneComponent* SceneComponent = Cast<USceneComponent>(j);
+					if (SceneComponent) {
+
+						//found static 
+						if (SceneComponent->Mobility == EComponentMobility::Static) {
+							StaticSceneComponents.Add(SceneComponent);
+						}
+					}
 				}
 			}
+
 		}
 
-		//about static static mesh
-		if (SMCs.Num() > 0) {
+		//about static mobilities
+		if (StaticSceneComponents.Num() > 0) {
 			//* Warning Message popup
 			FText Message = FXTC::T(
-				"Found Static mobility in [" + FString::FromInt(SMCs.Num()) +"] static meshes."
+				"Found Static mobility in [" + FString::FromInt(StaticSceneComponents.Num()) +"] Actors."
 				+ "\nHow to proceed? \n\n"
 				+ "Cancel : Abort \n"
 				+ "Retry : Try set to Movable \n"
@@ -239,22 +258,24 @@ void AFXTParent::AddChildFromSelectedActors()
 
 			EAppReturnType::Type Dialogresult = FMessageDialog::Open(EAppMsgType::CancelRetryContinue, Message, &Title);
 
-			//*Destroy parent and all childs
+			//Abort
 			if (Dialogresult == EAppReturnType::Cancel)
 			{
 				return;
 			}
 
+			//try set to movable
 			if (Dialogresult == EAppReturnType::Retry)
 			{
-				for (UStaticMeshComponent* i : SMCs) {
+				for (USceneComponent* i : StaticSceneComponents) {
 					i->SetMobility(EComponentMobility::Movable);
 				}
 			}
 
+			//continue without statics
 			if (Dialogresult == EAppReturnType::Continue)
 			{
-				for (UStaticMeshComponent* i : SMCs) {
+				for (USceneComponent* i : StaticSceneComponents) {
 					currentselectedactors.Remove(i->GetOwner());
 				}
 			}
