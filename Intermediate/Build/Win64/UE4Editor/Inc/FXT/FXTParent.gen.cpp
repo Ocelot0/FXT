@@ -1,4 +1,4 @@
-// Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
+// Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 /*===========================================================================
 	Generated code exported from UnrealHeaderTool.
 	DO NOT modify this manually! Edit the corresponding .h files instead!
@@ -34,15 +34,15 @@ void EmptyLinkFunctionForGeneratedCodeFXTParent() {}
 	{
 		UClass* Class = AFXTParent::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
-			{ "AddChildFromSelectedActors", &AFXTParent::execAddChildFromSelectedActors },
-			{ "GetActorsFromChildListByClassFName", &AFXTParent::execGetActorsFromChildListByClassFName },
-			{ "GetChildHidden", &AFXTParent::execGetChildHidden },
-			{ "GetChildList", &AFXTParent::execGetChildList },
-			{ "GetNumOfChilds", &AFXTParent::execGetNumOfChilds },
-			{ "RefreshChildList", &AFXTParent::execRefreshChildList },
-			{ "RemoveChildByLabel", &AFXTParent::execRemoveChildByLabel },
-			{ "ResetChildList", &AFXTParent::execResetChildList },
-			{ "SetChildHidden", &AFXTParent::execSetChildHidden },
+			{ "AddChildFromSelectedActors", (Native)&AFXTParent::execAddChildFromSelectedActors },
+			{ "GetActorsFromChildListByClassFName", (Native)&AFXTParent::execGetActorsFromChildListByClassFName },
+			{ "GetChildHidden", (Native)&AFXTParent::execGetChildHidden },
+			{ "GetChildList", (Native)&AFXTParent::execGetChildList },
+			{ "GetNumOfChilds", (Native)&AFXTParent::execGetNumOfChilds },
+			{ "RefreshChildList", (Native)&AFXTParent::execRefreshChildList },
+			{ "RemoveChildByLabel", (Native)&AFXTParent::execRemoveChildByLabel },
+			{ "ResetChildList", (Native)&AFXTParent::execResetChildList },
+			{ "SetChildHidden", (Native)&AFXTParent::execSetChildHidden },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
 	}
@@ -331,7 +331,7 @@ void EmptyLinkFunctionForGeneratedCodeFXTParent() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AFXTParent, 44049724);
+	IMPLEMENT_CLASS(AFXTParent, 1122044297);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AFXTParent(Z_Construct_UClass_AFXTParent, &AFXTParent::StaticClass, TEXT("/Script/FXT"), TEXT("AFXTParent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AFXTParent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

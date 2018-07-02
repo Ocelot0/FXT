@@ -1,4 +1,4 @@
-// Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
+// Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 /*===========================================================================
 	Generated code exported from UnrealHeaderTool.
 	DO NOT modify this manually! Edit the corresponding .h files instead!
@@ -20,7 +20,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->AddChildFromSelectedActors(); \
+		this->AddChildFromSelectedActors(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -29,7 +29,7 @@ class AActor;
 		P_GET_PROPERTY(UStrProperty,Z_Param_TargetLabel); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->RemoveChildByLabel(Z_Param_TargetLabel); \
+		this->RemoveChildByLabel(Z_Param_TargetLabel); \
 		P_NATIVE_END; \
 	} \
  \
@@ -37,7 +37,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->ResetChildList(); \
+		this->ResetChildList(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -45,7 +45,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->RefreshChildList(); \
+		this->RefreshChildList(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -53,7 +53,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(int32*)Z_Param__Result=P_THIS->GetNumOfChilds(); \
+		*(int32*)Z_Param__Result=this->GetNumOfChilds(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -63,7 +63,7 @@ class AActor;
 		P_GET_PROPERTY(UNameProperty,Z_Param_ClassFName); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->GetActorsFromChildListByClassFName(Z_Param_Out_outResult,Z_Param_ClassFName); \
+		*(bool*)Z_Param__Result=this->GetActorsFromChildListByClassFName(Z_Param_Out_outResult,Z_Param_ClassFName); \
 		P_NATIVE_END; \
 	} \
  \
@@ -72,7 +72,7 @@ class AActor;
 		P_GET_TARRAY_REF(AActor*,Z_Param_Out_outchildlist); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->GetChildList(Z_Param_Out_outchildlist); \
+		this->GetChildList(Z_Param_Out_outchildlist); \
 		P_NATIVE_END; \
 	} \
  \
@@ -81,7 +81,7 @@ class AActor;
 		P_GET_UBOOL(Z_Param_NewHidden); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->SetChildHidden(Z_Param_NewHidden); \
+		this->SetChildHidden(Z_Param_NewHidden); \
 		P_NATIVE_END; \
 	} \
  \
@@ -89,7 +89,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->GetChildHidden(); \
+		*(bool*)Z_Param__Result=this->GetChildHidden(); \
 		P_NATIVE_END; \
 	}
 
@@ -100,7 +100,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->AddChildFromSelectedActors(); \
+		this->AddChildFromSelectedActors(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -109,7 +109,7 @@ class AActor;
 		P_GET_PROPERTY(UStrProperty,Z_Param_TargetLabel); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->RemoveChildByLabel(Z_Param_TargetLabel); \
+		this->RemoveChildByLabel(Z_Param_TargetLabel); \
 		P_NATIVE_END; \
 	} \
  \
@@ -117,7 +117,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->ResetChildList(); \
+		this->ResetChildList(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -125,7 +125,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->RefreshChildList(); \
+		this->RefreshChildList(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -133,7 +133,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(int32*)Z_Param__Result=P_THIS->GetNumOfChilds(); \
+		*(int32*)Z_Param__Result=this->GetNumOfChilds(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -143,7 +143,7 @@ class AActor;
 		P_GET_PROPERTY(UNameProperty,Z_Param_ClassFName); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->GetActorsFromChildListByClassFName(Z_Param_Out_outResult,Z_Param_ClassFName); \
+		*(bool*)Z_Param__Result=this->GetActorsFromChildListByClassFName(Z_Param_Out_outResult,Z_Param_ClassFName); \
 		P_NATIVE_END; \
 	} \
  \
@@ -152,7 +152,7 @@ class AActor;
 		P_GET_TARRAY_REF(AActor*,Z_Param_Out_outchildlist); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->GetChildList(Z_Param_Out_outchildlist); \
+		this->GetChildList(Z_Param_Out_outchildlist); \
 		P_NATIVE_END; \
 	} \
  \
@@ -161,7 +161,7 @@ class AActor;
 		P_GET_UBOOL(Z_Param_NewHidden); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->SetChildHidden(Z_Param_NewHidden); \
+		this->SetChildHidden(Z_Param_NewHidden); \
 		P_NATIVE_END; \
 	} \
  \
@@ -169,7 +169,7 @@ class AActor;
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->GetChildHidden(); \
+		*(bool*)Z_Param__Result=this->GetChildHidden(); \
 		P_NATIVE_END; \
 	}
 

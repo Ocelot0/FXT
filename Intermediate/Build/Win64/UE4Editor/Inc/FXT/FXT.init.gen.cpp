@@ -1,4 +1,4 @@
-// Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
+// Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 /*===========================================================================
 	Generated code exported from UnrealHeaderTool.
 	DO NOT modify this manually! Edit the corresponding .h files instead!
@@ -19,7 +19,7 @@ void EmptyLinkFunctionForGeneratedCodeFXT_init() {}
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/FXT",
 				PKG_CompiledIn | 0x00000040,
-				0xB11845C3,
+				0x9F7EFE39,
 				0xFDECDD5A,
 				nullptr, 0,
 				METADATA_PARAMS(nullptr, 0)

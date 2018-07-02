@@ -1,4 +1,4 @@
-// Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
+// Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 /*===========================================================================
 	Generated code exported from UnrealHeaderTool.
 	DO NOT modify this manually! Edit the corresponding .h files instead!
@@ -60,7 +60,7 @@ void EmptyLinkFunctionForGeneratedCodeFXTGameMode() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AFXTGameMode, 3182507052);
+	IMPLEMENT_CLASS(AFXTGameMode, 1254071789);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AFXTGameMode(Z_Construct_UClass_AFXTGameMode, &AFXTGameMode::StaticClass, TEXT("/Script/FXT"), TEXT("AFXTGameMode"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AFXTGameMode);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
