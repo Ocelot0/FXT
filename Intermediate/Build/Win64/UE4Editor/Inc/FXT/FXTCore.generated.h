@@ -20,5 +20,6 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define FOREACH_ENUM_EFXTTOOLTYPE(op) \
 	op(EFXTToolType::EDefault) \
 	op(EFXTToolType::EParent) \
-	op(EFXTToolType::EPIE) 
+	op(EFXTToolType::EPIE) \
+	op(EFXTToolType::EEmitterBatch) 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

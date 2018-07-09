@@ -22,6 +22,8 @@
 #include "Dialogs.h"
 #include "AssetEditorManager.h"
 #include "Runtime/LevelSequence/Public/LevelSequenceActor.h"
+#include "Particles/ParticleLODLevel.h"
+#include "Particles/ParticleModuleRequired.h"
 
 //Engine Slate Widgets
 #include "SBox.h"		//SlateWidget : Box
@@ -52,6 +54,8 @@
 #include "SRowComboButton.h"
 #include "SPIETool.h"
 #include "SInPIE.h"
+#include "SEmitterBatchTool.h"
+#include "SAssetPicker.h"
 
 //FXT Class
 #include "FXTParent.h"
@@ -112,6 +116,7 @@
 //*Tool Name
 #define FXT_TOOLNAME_PARENT "Parent Tool"
 #define FXT_TOOLNAME_PIE "PIE Tool"
+#define FXT_TOOLNAME_EMITTERBATCH "Emitter Batch Tool"
 #define FXT_TOOLNAME_INFO "Information"
 
 UENUM()
@@ -120,6 +125,7 @@ enum class EFXTToolType
 	EDefault,
 	EParent,
 	EPIE,
+	EEmitterBatch,
 	EInfo
 };
 

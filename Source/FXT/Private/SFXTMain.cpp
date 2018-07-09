@@ -65,6 +65,10 @@ void SFXTMain::Construct(const FArguments& InArgs)
 						+ SVerticalBox::Slot().VAlign(VAlign_Fill)[
 							SNew(SPIETool).Visibility(Vis_byToolType(EFXTToolType::EPIE))
 						]//-SVerticalBox::Slot()
+						 //*EmitterBatch Tool
+						+ SVerticalBox::Slot().VAlign(VAlign_Fill)[
+							SNew(SEmitterBatchTool).Visibility(Vis_byToolType(EFXTToolType::EEmitterBatch))
+						]//-SVerticalBox::Slot()
 						 //*INFO
 						+ SVerticalBox::Slot().VAlign(VAlign_Fill)[
 							SNew(SFXTInfo).Visibility(Vis_byToolType(EFXTToolType::EInfo))

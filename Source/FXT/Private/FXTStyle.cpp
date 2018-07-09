@@ -73,6 +73,12 @@ TSharedRef< FSlateStyleSet > FFXTStyle::Create()
 	Style->Set("EditorIcon.PlayNewWindow", new IMAGE_BRUSH(TEXT("Icons/icon_playInWindow_40x"), Icon40x40));
 	Style->Set("EditorIcon.PIEStop", new IMAGE_BRUSH(TEXT("Icons/icon_stop_40x"), Icon40x40));
 
+	Style->Set("EditorIcon.EmitterBatch", new IMAGE_BRUSH(TEXT("Icons/icon_Editor_Preferences_16x"), Icon16x16));
+	Style->Set("EditorIcon.World", new IMAGE_BRUSH(TEXT("Icons/icon_axis_world_16px"), Icon16x16));
+	Style->Set("EditorIcon.Local", new IMAGE_BRUSH(TEXT("Icons/icon_axis_local_16px"), Icon16x16));
+
+	Style->Set("EditorIcon.Refresh", new IMAGE_BRUSH(TEXT("Icons/icon_Refresh_16x"), Icon16x16));
+
 	Style->Set("RowIcon.Default", new IMAGE_BRUSH(TEXT("Icons/AssetIcons/Default_16x"), Icon16x16));
 	Style->Set("RowIcon.Actor", new IMAGE_BRUSH(TEXT("Icons/AssetIcons/Actor_16x"), Icon16x16));
 	Style->Set("RowIcon.LevelSequenceActor", new IMAGE_BRUSH(TEXT("Icons/AssetIcons/LevelSequence_16x"), Icon16x16));
