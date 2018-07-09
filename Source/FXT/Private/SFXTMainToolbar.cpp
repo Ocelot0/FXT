@@ -32,30 +32,40 @@ void SFXTMainToolbar::Construct(const FArguments& InArgs, const TSharedRef<SFXTM
 				+ SHorizontalBox::Slot().AutoWidth()[			
 					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EParent)).Padding(0.f)[
 						SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_Parent)
-							.bUseImage(true)
-							.Image(FXTStyle::Get().GetBrush("EditorIcon.SceneOutliner"))
-							.ToolTipText(FText::FromString(FXT_TOOLNAME_PARENT))
-							.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+						.bUseImage(true)
+						.Image(FXTStyle::Get().GetBrush("EditorIcon.SceneOutliner"))
+						.ToolTipText(FText::FromString(FXT_TOOLNAME_PARENT))
+						.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
 					]//-SBorder
 				]//-SHorizontalBox::Slot()
 				 //*PIE Tool Button
 				+ SHorizontalBox::Slot().AutoWidth()[
 					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EPIE)).Padding(0.f)[
 						SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_PIE)
-							.bUseImage(true)
-							.Image(FXTStyle::Get().GetBrush("EditorIcon.PIE"))
-							.ToolTipText(FText::FromString(FXT_TOOLNAME_PIE))
-							.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+						.bUseImage(true)
+						.Image(FXTStyle::Get().GetBrush("EditorIcon.PIE"))
+						.ToolTipText(FText::FromString(FXT_TOOLNAME_PIE))
+						.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+					]//-SBorder
+				]//-SHorizontalBox::Slot()
+				 //*EmitterBatch Tool Button
+				+ SHorizontalBox::Slot().AutoWidth()[
+					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EEmitterBatch)).Padding(0.f)[
+						SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_EmitterBatch)
+						.bUseImage(true)
+						.Image(FXTStyle::Get().GetBrush("EditorIcon.EmitterBatch"))
+						.ToolTipText(FText::FromString(FXT_TOOLNAME_EMITTERBATCH))
+						.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
 					]//-SBorder
 				]//-SHorizontalBox::Slot()
 				//*Info Button
 				+ SHorizontalBox::Slot().AutoWidth()[
 					SNew(SBorder).BorderImage(Border_byToolType(EFXTToolType::EInfo)).Padding(0.f)[
 						SNew(SFXTButton).OnClicked(this, &SFXTMainToolbar::BTN_Info)
-							.bUseImage(true)
-							.Image(FXTStyle::Get().GetBrush("EditorIcon.Detail"))
-							.ToolTipText(FText::FromString(FXT_TOOLNAME_INFO))
-							.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
+						.bUseImage(true)
+						.Image(FXTStyle::Get().GetBrush("EditorIcon.Detail"))
+						.ToolTipText(FText::FromString(FXT_TOOLNAME_INFO))
+						.ButtonStyle(&FEditorStyle::Get(), "FlatButton")
 					]//-SBorder
 				]//-SHorizontalBox::Slot()
 			]//-SVerticalBox::Slot()
@@ -106,6 +116,16 @@ FReply SFXTMainToolbar::BTN_PIE()
 
 	if (OwnerWidget.IsValid()) {
 		OwnerWidget->SetCurrentTool(EFXTToolType::EPIE);
+	}
+
+	return FReply::Handled();
+}
+FReply SFXTMainToolbar::BTN_EmitterBatch()
+{
+	const TSharedPtr<SFXTMain> OwnerWidget = OwnerPtr.Pin();
+
+	if (OwnerWidget.IsValid()) {
+		OwnerWidget->SetCurrentTool(EFXTToolType::EEmitterBatch);
 	}
 
 	return FReply::Handled();

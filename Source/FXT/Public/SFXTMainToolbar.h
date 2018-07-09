@@ -34,6 +34,9 @@ public:
 	//*Parenting Tool
 	FReply BTN_PIE();
 
+	//*Parenting Tool
+	FReply BTN_EmitterBatch();
+
 	//*INFO
 	FReply BTN_Info();
 

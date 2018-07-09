@@ -99,7 +99,7 @@ void SInPIE::Construct(const FArguments& InArgs)
 	};
 	auto FLOAT_TimelineCurrent_Attr = TAttribute<float>::Create(
 		TAttribute<float>::FGetter::CreateLambda(FLOAT_TimelineCurrent_Lam));
-	
+
 	ChildSlot.Padding(4.0f)
 	[
 		SNew(SVerticalBox)

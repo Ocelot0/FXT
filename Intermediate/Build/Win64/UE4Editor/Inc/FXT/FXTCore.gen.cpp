@@ -26,7 +26,7 @@ void EmptyLinkFunctionForGeneratedCodeFXTCore() {}
 		return Singleton;
 	}
 	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EFXTToolType(EFXTToolType_StaticEnum, TEXT("/Script/FXT"), TEXT("EFXTToolType"), false, nullptr, nullptr);
-	uint32 Get_Z_Construct_UEnum_FXT_EFXTToolType_CRC() { return 2373120873U; }
+	uint32 Get_Z_Construct_UEnum_FXT_EFXTToolType_CRC() { return 1526768001U; }
 	UEnum* Z_Construct_UEnum_FXT_EFXTToolType()
 	{
 #if WITH_HOT_RELOAD
@@ -41,6 +41,7 @@ void EmptyLinkFunctionForGeneratedCodeFXTCore() {}
 				{ "EFXTToolType::EDefault", (int64)EFXTToolType::EDefault },
 				{ "EFXTToolType::EParent", (int64)EFXTToolType::EParent },
 				{ "EFXTToolType::EPIE", (int64)EFXTToolType::EPIE },
+				{ "EFXTToolType::EEmitterBatch", (int64)EFXTToolType::EEmitterBatch },
 				{ "EFXTToolType::EInfo", (int64)EFXTToolType::EInfo },
 			};
 #if WITH_METADATA

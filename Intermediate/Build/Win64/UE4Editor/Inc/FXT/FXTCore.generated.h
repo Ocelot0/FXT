@@ -21,5 +21,6 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	op(EFXTToolType::EDefault) \
 	op(EFXTToolType::EParent) \
 	op(EFXTToolType::EPIE) \
+	op(EFXTToolType::EEmitterBatch) \
 	op(EFXTToolType::EInfo) 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
